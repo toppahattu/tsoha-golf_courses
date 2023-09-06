@@ -9,7 +9,7 @@ Sovelluksen ominaisuuksia ovat:
 * Käyttäjä näkee golfkentät kartalla ja voi painaa golfkentästä, jolloin siitä näytetään lisää tietoa (kuten kuvaus palveluista ja aukioloajat).
 * Käyttäjä voi antaa arvion (tähdet ja kommentti) golfkentästä ja lukea muiden antamia arvioita.
 * Ylläpitäjä voi lisätä ja poistaa golfkenttiä sekä määrittää golfkentästä näytettävät tiedot.
-* Käyttäjä voi etsiä kaikki golfkentät, joiden kuvauksessa on annettu sana.
+* Käyttäjä voi etsiä golfkenttiä esim. sijainnin tai palveluiden perusteella.
 * Käyttäjä näkee myös listan, jossa golfkentät on järjestetty parhaimmasta huonoimpaan arvioiden mukaisesti.
 * Ylläpitäjä voi tarvittaessa poistaa käyttäjän antaman arvion.
 * Ylläpitäjä voi luoda ryhmiä, joihin golfkenttiä voi luokitella. Golfkenttä voi kuulua yhteen tai useampaan ryhmään.
