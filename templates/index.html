@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+<h2>Etusivu</h2>
+
+{% if session.user_id %}
+<p>Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>.</p><a href="/logout">Kirjaudu ulos</a>
+
+{% else %}
+<p>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a> tai <a href="/register">rekisteröidy</a>.</p>
+{% endif %}
+
+{% include 'map.html' %}
+
+{% if session.user_role == 2 %}
+<h3>Ylläpitäjän toiminnot</h3>
+<ul>
+    <li><a href="/add">Lisää uusi kenttä</a></li>
+</ul>
+{% endif %}
+
+</body>
+</html>
+{% endblock %}
