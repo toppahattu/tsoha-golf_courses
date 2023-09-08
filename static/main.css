@@ -1,0 +1,15 @@
+form {
+    width: fit-content;
+}
+
+#personinfo input,
+#login input,
+#courseinfo input {
+    float: right;
+}
+
+
+
+div {
+    margin-bottom: 0.5em;
+}

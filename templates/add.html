@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<body>
+<h2>Lisää uusi golfkenttä</h2>
+<form action="/add" method="POST">
+    <fieldset id="courseinfo">
+        <legend>Perustiedot</legend>
+        <div>
+            <label for="name">Kentän nimi:
+                <input type="text" name="name" id="name" required/>
+            </label>
+        </div>
+        <div>
+            <label for="street">Katuosoite:
+                <input type="text" name="street" id="street" required/>
+            </label>
+        </div>
+        <div>
+            <label for="postal">Postinumero:
+                <input type="text" name="postal" id="postal" required/>
+            </label>
+        </div>
+        <div>
+            <label for="city">Kaupunki:
+                <input type="text" name="city" id="city" required/>
+            </label>
+        </div>
+    </fieldset>
+    <fieldset id="training">
+        <legend>Lisää harjoitusalueet</legend>
+        <div>
+            <input type="checkbox" id="range" name="training" value="range" />
+            <label for="range">Range</label>
+        </div>
+        <div>
+            <input type="checkbox" id="green" name="training" value="green" />
+            <label for="green">Harjoitusviheriö</label>
+        </div>
+        <div>
+            <input type="checkbox" id="short" name="training" value="short" />
+            <label for="short">Lähipelialue</label>
+        </div>
+    </fieldset>
+    <fieldset id="courseservice">
+        <legend>Lisää klubitalon palvelut</legend>
+        <div>
+            <label for="caddie">Caddiemaster (puhelinnumero muodossa +358):
+                <input type="text" name="caddie" id="caddie" required/>
+            </label>
+        </div>
+        <div>
+            <input type="checkbox" id="restaurant" name="club" value="restaurant" />
+            <label for="restaurant">Ravintola</label>
+        </div>
+        <div>
+            <input type="checkbox" id="proshop" name="club" value="proshop" />
+            <label for="proshop">Proshop</label>
+        </div>
+        <div>
+            <input type="checkbox" id="locker" name="club" value="locker" />
+            <label for="locker">Pukuhuoneet</label>
+        </div>
+        <div>
+            <input type="checkbox" id="sauna" name="club" value="sauna" />
+            <label for="sauna">Sauna</label>
+        </div>
+    </fieldset>
+    <div>
+        <input type="submit" value="Lisää kenttä" />
+    </div>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+</form>
+<p>Palaa <a href="/">takaisin</a></p>
+</body>
+</html>
+
+{% endblock %}

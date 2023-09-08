@@ -10,6 +10,22 @@ def index():
     map.save('templates/map.html')
     return render_template('index.html')
 
+@app.route('/course/<int:course_id>')
+def show_course():
+    return render_template('course.html')
+
+@app.route('/add', methods=['GET', 'POST'])
+def add_course():
+    users.require_role(2)
+    if request.method == 'GET':
+        return render_template('add.html')
+    if request.method == 'POST':
+        users.check_csrf()
+        course_id = courses.add_course()
+        if not course_id:
+            return render_template('error.html', message='Kentän lisääminen ei onnistunut')
+        return redirect('/') #(f'/course/{course_id}')
+
 @app.route('/logout')
 def logout():
     users.logout()
@@ -50,7 +66,7 @@ def register():
             return render_template('error.html', message='Salasana ei voi olla tyhjä')
 
         role = request.form['role']
-        # TODO: mahdollinen validation
+        #TODO: mahdollinen validation
 
         if not users.register(name, username, password1, role):
             return render_template('error.html', message='Rekisteröinti ei onnistunut')
