@@ -11,8 +11,12 @@ def index():
     return render_template('index.html')
 
 @app.route('/course/<int:course_id>')
-def show_course():
-    return render_template('course.html')
+def show_course(course_id):
+    course_info = courses.get_course_info(course_id)
+    course_training = courses.get_training_areas(course_id)
+    course_clubhouse = courses.get_clubhouse_info(course_id)
+    return render_template('course.html', course_id=course_id, info=course_info, 
+                           training=course_training, clubhouse=course_clubhouse)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_course():
@@ -24,7 +28,16 @@ def add_course():
         course_id = courses.add_course()
         if not course_id:
             return render_template('error.html', message='Kentän lisääminen ei onnistunut')
-        return redirect('/') #(f'/course/{course_id}')
+        return redirect(f'/course/{course_id}')
+    
+@app.route('/remove', methods=['POST'])
+def remove_course():
+    users.check_csrf()
+    if 'course' in request.form:
+        id = request.form['course']
+        courses.remove_course(id)
+    return redirect('/')
+
 
 @app.route('/logout')
 def logout():
@@ -66,7 +79,7 @@ def register():
             return render_template('error.html', message='Salasana ei voi olla tyhjä')
 
         role = request.form['role']
-        #TODO: mahdollinen validation
+        # TODO: mahdollinen validation
 
         if not users.register(name, username, password1, role):
             return render_template('error.html', message='Rekisteröinti ei onnistunut')

@@ -1,6 +1,32 @@
 {% extends 'layout.html' %}
 {%block content%}
 
-<h2>Kentän tiedot</h2>
+<body>
+    <h2>Kentän {{ info.name }} tiedot</h2>
+    <p>{{ info.description }}</p>
+    <h3>Harjoitusalueet</h3>
+    <ul>
+        {% for area in training %}
+        <li>{{ area }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Klubitalon palvelut</h3>
+    <ul>
+        {% for item in clubhouse %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if session.user_role == 2 %}
+    <h3>Ylläpitäjän toiminnot</h3>
+    <form action="/remove" method="POST">
+        <input type="submit" value="Poista" />
+        <input type="hidden" name="course" value="{{ course_id }}" />
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    </form>
+    {% endif %}
+
+</body>
+</html>
 
 {% endblock %}
