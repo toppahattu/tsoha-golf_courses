@@ -3,6 +3,9 @@
 
 <body>
     <h2>Kentän {{ info.name }} tiedot</h2>
+    <p>{{ info.street }}</p>
+    <p>{{ info.postal_code }} {{ info.city }}</p>
+    <p>Caddiemaster: {{ info.caddiemaster }}</p>
     <p>{{ info.description }}</p>
     <h3>Harjoitusalueet</h3>
     <ul>
@@ -19,10 +22,13 @@
 
     {% if session.user_role == 2 %}
     <h3>Ylläpitäjän toiminnot</h3>
-    <form action="/remove" method="POST">
+    <form action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa kentän tiedot?')">
         <input type="submit" value="Poista" />
         <input type="hidden" name="course" value="{{ course_id }}" />
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    </form>
+    <form action="/edit/{{ course_id }}" method="GET">
+        <input type="submit" value="Muokkaa kentän tietoja" />
     </form>
     {% endif %}
 

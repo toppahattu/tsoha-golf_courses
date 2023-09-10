@@ -2,47 +2,61 @@
 {% block content %}
 
 <body>
-<h2>Lisää uusi golfkenttä</h2>
-<form action="/add" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
+<h2>Muokkaa golfkentän tietoja</h2>
+<form action="/edit/{{ course_id }}" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
     <fieldset id="courseinfo">
         <legend>Perustiedot</legend>
         <div>
             <label for="name">Kentän nimi:
-                <input type="text" name="name" id="name" required/>
+                <input type="text" name="name" id="name" value="{{ info.name }}" required/>
             </label>
         </div>
         <div>
             <label for="street">Katuosoite:
-                <input type="text" name="street" id="street" required/>
+                <input type="text" name="street" id="street" value="{{ info.street }}" required/>
             </label>
         </div>
         <div>
             <label for="postal">Postinumero:
-                <input type="text" name="postal" id="postal" required/>
+                <input type="text" name="postal" id="postal" value="{{ info.postal_code }}" required/>
             </label>
         </div>
         <div>
             <label for="city">Kaupunki:
-                <input type="text" name="city" id="city" required/>
+                <input type="text" name="city" id="city" value="{{ info.city }}" required/>
             </label>
         </div>
         <div>
             <label for="description">Kentän kuvaus:</label>
-            <textarea id="description" name="description" rows="10" cols="50" maxlength="1000"></textarea>
+            <textarea id="description" name="description" rows="10" cols="50" maxlength="1000" >
+                {{ info.description }}
+            </textarea>
         </div>
     </fieldset>
     <fieldset id="training">
         <legend>Lisää harjoitusalueet</legend>
         <div>
+            {% if 'Range' in training %}
+            <input type="checkbox" id="range" name="training" value="range" checked />
+            {% else %}
             <input type="checkbox" id="range" name="training" value="range" />
+            {% endif %}
             <label for="range">Range</label>
         </div>
         <div>
+            {% if 'Harjoitusviheriö' in training %}
+            <input type="checkbox" id="green" name="training" value="green" checked />
+            {% else %}
             <input type="checkbox" id="green" name="training" value="green" />
+            {% endif %}
             <label for="green">Harjoitusviheriö</label>
         </div>
         <div>
+            {% if 'Lähipelialue' in training %}
+            <input type="checkbox" id="short" name="training" value="short" checked />
+            {% else %}
             <input type="checkbox" id="short" name="training" value="short" />
+            {% endif %}
             <label for="short">Lähipelialue</label>
         </div>
     </fieldset>
@@ -50,32 +64,48 @@
         <legend>Lisää klubitalon palvelut</legend>
         <div>
             <label for="caddie">Caddiemaster (puhelinnumero muodossa +358):
-                <input type="text" name="caddie" id="caddie" required/>
+                <input type="text" name="caddie" id="caddie" value="{{ info.caddiemaster }}" required/>
             </label>
         </div>
         <div>
+            {% if 'Ravintola' in clubhouse %}
+            <input type="checkbox" id="restaurant" name="club" value="restaurant" checked />
+            {% else %}
             <input type="checkbox" id="restaurant" name="club" value="restaurant" />
+            {% endif %}
             <label for="restaurant">Ravintola</label>
         </div>
         <div>
+            {% if 'Pro shop' in clubhouse %}
+            <input type="checkbox" id="proshop" name="club" value="proshop" checked />
+            {% else %}
             <input type="checkbox" id="proshop" name="club" value="proshop" />
+            {% endif %}
             <label for="proshop">Pro shop</label>
         </div>
         <div>
+            {% if 'Pukuhuoneet' in clubhouse %}
+            <input type="checkbox" id="locker" name="club" value="locker" checked />
+            {% else %}
             <input type="checkbox" id="locker" name="club" value="locker" />
+            {% endif %}
             <label for="locker">Pukuhuoneet</label>
         </div>
         <div>
+            {% if 'Sauna' in clubhouse %}
+            <input type="checkbox" id="sauna" name="club" value="sauna" checked />
+            {% else %}
             <input type="checkbox" id="sauna" name="club" value="sauna" />
+            {% endif %}
             <label for="sauna">Sauna</label>
         </div>
     </fieldset>
     <div>
-        <input type="submit" value="Lisää kenttä" />
+        <input type="submit" value="Lisää muokkaukset" />
     </div>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
 </form>
-<p>Palaa <a href="/">takaisin</a></p>
+<p>Palaa <a href="/">takaisin etusivulle</a></p>
 </body>
 </html>
 

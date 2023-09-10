@@ -36,7 +36,7 @@ CREATE TABLE training_areas (
 CREATE TABLE clubhouse (
     id SERIAL PRIMARY KEY,
     course_id INTEGER,
-    caddie_master VARCHAR(20) CHECK (caddie_master LIKE '+358%'),
+    caddiemaster VARCHAR(20) CHECK (caddiemaster LIKE '+358%'),
     has_restaurant BOOLEAN,
     has_pro_shop BOOLEAN,
     has_locker_room BOOLEAN,
