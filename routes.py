@@ -6,7 +6,15 @@ import users
 
 @app.route('/')
 def index():
-    map = folium.Map(location=(60.192059, 24.945831), width=800, height=600, zoom_start=11)
+    map = folium.Map(location=(60.192059, 24.945831), width=800, height=600, zoom_start=9)
+    golfcourses = courses.get_coords()
+    if golfcourses:
+        for course in golfcourses:
+            latLng = course.coordinates.strip('()').split(',')
+            marker = folium.Marker(
+            [latLng[0], latLng[1]],
+            popup=f'<a href=/course/{course.id}>{course.name}</a>')
+            marker.add_to(map)
     map.save('templates/map.html')
     return render_template('index.html')
 

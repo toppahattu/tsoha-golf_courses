@@ -3,6 +3,10 @@ from sqlalchemy.sql import text
 from geopy.geocoders import Nominatim
 from db import db
 
+def get_coords():
+    sql = 'SELECT c.id, c.name, a.coordinates FROM courses c, address a WHERE c.id = a.course_id'
+    return db.session.execute(text(sql))
+
 def get_course_info(course_id):
     sql = '''SELECT c.id, c.name, c.description, a.street, a.postal_code, a.city, h.caddiemaster     
              FROM courses c, address a, clubhouse h
@@ -100,7 +104,7 @@ def add_clubhouse(course_id, sql):
     db.session.execute(text(sql), {'course_id': course_id, 'caddie': caddie, 'restaurant': restaurant, 'pro_shop': pro_shop, 'locker': locker, 'sauna': sauna})
 
 def has_service(service, services):
-    return (True if service in services else False)
+    return service in services
 
 def remove_course(course_id):
     sql = 'DELETE FROM courses WHERE id=:course_id'
