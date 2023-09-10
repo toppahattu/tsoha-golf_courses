@@ -6,7 +6,7 @@ Jokainen käyttäjä on peruskäyttäjä tai ylläpitäjä.
 Sovelluksen ominaisuuksia ovat:
 
 * Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen.
-* Käyttäjä näkee golfkentät kartalla ja voi painaa golfkentästä, jolloin siitä näytetään lisää tietoa (kuten kuvaus palveluista ja aukioloajat).
+* Käyttäjä näkee golfkentät kartalla ja voi painaa golfkentästä, jolloin siitä näytetään lisää tietoa (kuten kuvaus palveluista ja tietoja harjoitusalueista).
 * Käyttäjä voi antaa arvion (tähdet ja kommentti) golfkentästä ja lukea muiden antamia arvioita.
 * Ylläpitäjä voi lisätä ja poistaa golfkenttiä sekä määrittää golfkentästä näytettävät tiedot.
 * Käyttäjä voi etsiä golfkenttiä esim. sijainnin tai palveluiden perusteella.
