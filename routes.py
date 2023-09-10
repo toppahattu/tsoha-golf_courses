@@ -21,10 +21,10 @@ def show_course(course_id):
 @app.route('/edit/<int:course_id>', methods=['GET', 'POST'])
 def edit_course(course_id):
     users.require_role(2)
-    course_info = courses.get_course_info(course_id)
-    course_training = courses.get_training_areas(course_id)
-    course_clubhouse = courses.get_clubhouse_info(course_id)
     if request.method == 'GET':
+        course_info = courses.get_course_info(course_id)
+        course_training = courses.get_training_areas(course_id)
+        course_clubhouse = courses.get_clubhouse_info(course_id)
         return render_template('edit.html', course_id=course_id, info=course_info, 
                                training=course_training, clubhouse=course_clubhouse)
     if request.method == 'POST':
