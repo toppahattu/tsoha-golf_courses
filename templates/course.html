@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{%block content%}
+{% block content %}
 
 <body>
     <h2>Kentän {{ info.name }} tiedot</h2>
@@ -19,6 +19,41 @@
         <li>{{ item }}</li>
         {% endfor %}
     </ul>
+
+    <h3>Kentän arvostelu:</h3>
+    {% if session.user_role == 1 %}
+    <form action="/review" method="POST" onsubmit="return window.confirm('Haluatko jättää tämän arvostelun?')">
+        <fieldset>
+            <legend>Anna 1-5 tähteä</legend>
+            <div class="rating">
+                <input type="radio" id="star1" name="rating" value="1" />
+                <label for="star1">1</label>
+                <input type="radio" id="star2" name="rating" value="2" />
+                <label for="star2">2</label>
+                <input type="radio" id="star3" name="rating" value="3" />
+                <label for="star3">3</label>
+                <input type="radio" id="star4" name="rating" value="4" />
+                <label for="star4">4</label>
+                <input type="radio" id="star5" name="rating" value="5" />
+                <label for="star5">5</label>
+            </div>
+        </fieldset>
+        <div>
+            <fieldset>
+                <legend>Anna kommentti kentästä {{ info.name }}:</legend>
+                <textarea id="comment" name="comment" rows="10" cols="50" maxlength="1000"></textarea>
+            </fieldset>
+        </div>
+        <div>
+            <input type="submit" value="Jätä arvostelu" />
+            <input type="hidden" name="course" value="{{ course_id }}" />
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+        </div>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    </form>
+    {% endif %}
+
+    <p>Katso <a href="/reviews/{{ course_id }}">kaikki arvostelut</a> kentästä {{ info.name }}</p>
 
     {% if session.user_role == 2 %}
     <h3>Ylläpitäjän toiminnot</h3>

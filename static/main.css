@@ -1,3 +1,9 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
 form {
     width: fit-content;
 }
@@ -8,8 +14,62 @@ form {
     float: right;
 }
 
-
-
 div {
     margin-bottom: 0.5em;
+}
+
+#reviews {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.review-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.review-box{
+    width: 500px;
+    padding: 20px;
+    margin: 15px;
+}
+
+.box-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile{
+    display: flex;
+    align-items: center;
+}
+
+.user-name{
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name strong{
+    font-size: 1.1em;
+}
+
+.user-name span{
+    font-size: 0.8em;
+    color: grey;
+}
+
+.review-stars{
+    color: gold;
+}
+
+.review-text{
+    font-size: 0.9em;
 }

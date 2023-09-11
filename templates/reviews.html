@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+{% block content %}
+<body>
+    {% if reviews %}
+    <section id="reviews">
+        <div>
+            <h2>Arvostelut kentästä {{ reviews[0].c_name }}</h2>
+        </div>
+        <div class="review-container">
+            {% for review in reviews %}
+            <div class="review-box">
+                <div class="box-top">
+                    <div class="profile">
+                        <div class="user-name">
+                            <strong>{{ review.u_name }}</strong>
+                            <span>@{{ review.username }}</span>
+                        </div>
+                    </div>
+                    <div class="review-stars">
+                        {% for i in range(review.stars) %}
+                        <span class="fa fa-star checked"></span>
+                        {% endfor %}
+                        {% for i in range(5 - review.stars) %}
+                        <span class="fa fa-star"></span>
+                        {% endfor %}
+                    </div>
+                    <div class="review-text">
+                        <p>{{ review.comment }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <p>Palaa <a href="/course/{{ course_id }}">takaisin</a>.</p>
+    {% else %}
+    <p> Ei vielä arvosteluita. <a href="/course/{{ course_id }}">Jätä arvostelu</a>.</p>
+    {% endif %}
+</body>
+</html>
+{% endblock %}

@@ -60,6 +60,27 @@ def remove_course():
         courses.remove_course(id)
     return redirect('/')
 
+@app.route('/review', methods=['POST'])
+def review_course():
+    users.check_csrf()
+    users.require_role(1)
+    if 'course' in request.form:
+        course_id = request.form['course']
+        stars = int(request.form['rating'])
+        if stars < 1 or stars > 5:
+            return render_template('error.html', message='Virheellinen tähtimäärä')
+        comment = request.form['comment']
+        if len(comment) > 1000:
+            return render_template('error.html', message='Kommentti on liian pitkä')
+        if comment.strip() == '':
+            comment = '-'
+        courses.add_review(users.user_id(), course_id, stars, comment)
+    return redirect(f'/course/{course_id}')
+
+@app.route('/reviews/<int:course_id>')
+def reviews(course_id):
+    reviews = courses.get_all_reviews(course_id)
+    return render_template('reviews.html', course_id=course_id, reviews=reviews)
 
 @app.route('/logout')
 def logout():
@@ -106,4 +127,3 @@ def register():
         if not users.register(name, username, password1, role):
             return render_template('error.html', message='Rekisteröinti ei onnistunut')
         return redirect('/')
-        
