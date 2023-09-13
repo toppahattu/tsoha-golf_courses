@@ -18,6 +18,11 @@ div {
     margin-bottom: 0.5em;
 }
 
+.index-course-container{
+    display: flex;
+    justify-content: space-between;
+}
+
 #reviews {
     display: flex;
     justify-content: center;

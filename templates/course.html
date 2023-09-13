@@ -41,9 +41,9 @@
             <fieldset>
                 <legend>Anna kommentti kentästä {{ info.name }}:</legend>
                 <textarea id="comment" name="comment" rows="10" cols="50" maxlength="1000">
-                    {% if review %}
-                    {{ review.comment }}
-                    {% endif %}
+                {% if review %}
+                {{ review.comment }}
+                {% endif %}
                 </textarea>
             </fieldset>
         </div>

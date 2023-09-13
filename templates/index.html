@@ -10,7 +10,19 @@
 <p>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a> tai <a href="/register">rekisteröidy</a>.</p>
 {% endif %}
 
-{% include 'map.html' %}
+<div class="index-course-container">
+    {% include 'map.html' %}
+    {% if session.user_role == 1 %}
+    <div>
+        <h3>Kentät arvostelujen mukaan</h3>
+        <ul>
+            {% for rating in ratings %}
+            <li><a href="/course/{{ rating.course_id }}">{{ rating.name }}</a> {{ rating.stars }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
 
 {% if session.user_role == 2 %}
 

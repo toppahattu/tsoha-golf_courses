@@ -8,6 +8,8 @@ import users
 def index():
     my_map = folium.Map(location=(60.192059, 24.945831), width=800, height=600, zoom_start=9)
     golfcourses = courses.get_coords()
+    ratings = courses.get_course_ratings()
+    print(ratings)
     if golfcourses:
         for course in golfcourses:
             lat_lng = course.coordinates.strip('()').split(',')
@@ -16,7 +18,7 @@ def index():
             popup=f'<a href=/course/{course.id}>{course.name}</a>')
             marker.add_to(my_map)
     my_map.save('templates/map.html')
-    return render_template('index.html')
+    return render_template('index.html', ratings=ratings)
 
 @app.route('/course/<int:course_id>')
 def show_course(course_id):
@@ -75,7 +77,7 @@ def review_course():
         stars = int(request.form['rating'])
         if stars < 1 or stars > 5:
             return render_template('error.html', message='Virheellinen tähtimäärä')
-        comment = request.form['comment']
+        comment = request.form['comment'].strip()
         if len(comment) > 1000:
             return render_template('error.html', message='Kommentti on liian pitkä')
         if comment.strip() == '':
