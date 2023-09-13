@@ -40,7 +40,11 @@
         <div>
             <fieldset>
                 <legend>Anna kommentti kentästä {{ info.name }}:</legend>
-                <textarea id="comment" name="comment" rows="10" cols="50" maxlength="1000">{% if review %}{{ review.comment }}{% endif %}</textarea>
+                <textarea id="comment" name="comment" rows="10" cols="50" maxlength="1000">
+                    {% if review %}
+                    {{ review.comment }}
+                    {% endif %}
+                </textarea>
             </fieldset>
         </div>
         <div>
@@ -58,7 +62,7 @@
 
     {% if session.user_role == 2 %}
     <h3>Ylläpitäjän toiminnot</h3>
-    <form action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa kentän tiedot?')">
+    <form action="/removecourse" method="POST" onsubmit="return window.confirm('Haluatko poistaa kentän tiedot?')">
         <input type="submit" value="Poista" />
         <input type="hidden" name="course" value="{{ course_id }}" />
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

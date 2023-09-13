@@ -35,7 +35,10 @@ def register(name, username, password, role):
         return False
     return login(username, password)
 
-def user_id():
+def user_id(username=None):
+    if username:
+        sql = 'SELECT id from users WHERE username=:username'
+        return db.session.execute(text(sql), {'username': username}).fetchone()[0]
     return session.get('user_id', 0)
 
 def require_role(role):

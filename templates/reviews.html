@@ -28,13 +28,30 @@
                         <p>{{ review.comment }}</p>
                     </div>
                 </div>
+                {% if session.user_role == 2 %}
+                <form action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa arvostelun?')" >
+                    <input type="submit" value="Poista arvostelu" />
+                    <input type="hidden" name="course" value="{{ course_id }}" />
+                    <input type="hidden" name="user" value="{{ review.username }}" />
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+                </form>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
     </section>
     <p>Palaa <a href="/course/{{ course_id }}">takaisin</a>.</p>
     {% else %}
-    <p> Ei vielä arvosteluita. <a href="/course/{{ course_id }}">Jätä arvostelu</a>.</p>
+    <p> 
+        Ei vielä arvosteluita.
+        <a href="/course/{{ course_id }}">
+            {% if session.user_role == 1 %}
+            Jätä arvostelu
+            {% else %}
+            Palaa takaisin
+            {% endif %}
+        </a>.
+    </p>
     {% endif %}
 </body>
 </html>

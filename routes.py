@@ -54,10 +54,15 @@ def add_course():
     return redirect(f'/course/{course_id}')
 
 @app.route('/remove', methods=['POST'])
-def remove_course():
+def remove():
     users.check_csrf()
+    users.require_role(2)
     if 'course' in request.form:
         course_id = request.form['course']
+        if 'user' in request.form:
+            user_id = users.user_id(request.form['user'])
+            courses.remove_review(user_id, course_id)
+            return redirect(f'/reviews/{course_id}')
         courses.remove_course(course_id)
     return redirect('/')
 
@@ -95,11 +100,9 @@ def logout():
 def login():
     if request.method == 'GET':
         return render_template('login.html')
-
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
         if not users.login(username, password):
             return render_template('error.html', message='Väärä käyttäjänimi tai salasana')
     return redirect('/')
@@ -108,7 +111,6 @@ def login():
 def register():
     if request.method == 'GET':
         return render_template('/register.html')
-
     if request.method == 'POST':
         name = request.form['name']
         if len(name) > 50:
