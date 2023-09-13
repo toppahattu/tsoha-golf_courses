@@ -26,30 +26,31 @@
         <fieldset>
             <legend>Anna 1-5 tähteä</legend>
             <div class="rating">
-                <input type="radio" id="star1" name="rating" value="1" />
-                <label for="star1">1</label>
-                <input type="radio" id="star2" name="rating" value="2" />
-                <label for="star2">2</label>
-                <input type="radio" id="star3" name="rating" value="3" />
-                <label for="star3">3</label>
-                <input type="radio" id="star4" name="rating" value="4" />
-                <label for="star4">4</label>
-                <input type="radio" id="star5" name="rating" value="5" />
-                <label for="star5">5</label>
+                {% for i in range(1,6) %}
+                {% if review and review.stars == i %}
+                <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" checked />
+                <label for="star{{ i }}">{{ i }}</label>
+                {% else %}
+                <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" />
+                <label for="star{{ i }}">{{ i }}</label>
+                {% endif %}
+                {% endfor %}
             </div>
         </fieldset>
         <div>
             <fieldset>
                 <legend>Anna kommentti kentästä {{ info.name }}:</legend>
-                <textarea id="comment" name="comment" rows="10" cols="50" maxlength="1000"></textarea>
+                <textarea id="comment" name="comment" rows="10" cols="50" maxlength="1000">{% if review %}{{ review.comment }}{% endif %}</textarea>
             </fieldset>
         </div>
         <div>
             <input type="submit" value="Jätä arvostelu" />
-            <input type="hidden" name="course" value="{{ course_id }}" />
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         </div>
+        <input type="hidden" name="course" value="{{ course_id }}" />
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+        {% if review %}
+        <input type="hidden" name="update" value="update" />
+        {% endif %}
     </form>
     {% endif %}
 

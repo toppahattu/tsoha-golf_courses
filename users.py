@@ -1,14 +1,13 @@
 import os
 from sqlalchemy.sql import text
-from db import db
 from flask import abort, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
+from db import db
 
 def login(username, password):
     sql = 'SELECT password, id, name, role FROM users WHERE username=:username'
     result = db.session.execute(text(sql), {'username':username})
     user = result.fetchone()
-    print(user)
     if not user:
         return False
     if not check_password_hash(user[0], password):
@@ -27,8 +26,10 @@ def logout():
 def register(name, username, password, role):
     hash_value = generate_password_hash(password)
     try:
-        sql = 'INSERT INTO users (name, username, password, role) VALUES (:name, :username, :password, :role)'
-        db.session.execute(text(sql), {'name':name, 'username':username, 'password':hash_value, 'role':role})
+        sql = '''INSERT INTO users (name, username, password, role)
+                 VALUES (:name, :username, :password, :role)'''
+        db.session.execute(text(sql),
+                           {'name':name, 'username':username, 'password':hash_value, 'role':role})
         db.session.commit()
     except:
         return False
