@@ -9,7 +9,6 @@ def index():
     my_map = folium.Map(location=(60.192059, 24.945831), width=800, height=600, zoom_start=9)
     golfcourses = courses.get_coords()
     ratings = courses.get_course_ratings()
-    print(ratings)
     if golfcourses:
         for course in golfcourses:
             lat_lng = course.coordinates.strip('()').split(',')

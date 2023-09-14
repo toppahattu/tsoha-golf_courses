@@ -156,6 +156,6 @@ def get_all_reviews(course_id):
     return db.session.execute(text(sql), {'course_id': course_id}).fetchall()
 
 def get_course_ratings():
-    sql = '''SELECT c.name, CAST(AVG(r.stars) AS DECIMAL(3, 2)) AS stars, r.course_id
-             FROM courses c, reviews r WHERE c.id=r.course_id GROUP BY r.course_id, c.name'''
+    sql = '''SELECT c.name, CAST(COALESCE(AVG(r.stars), 0) AS DECIMAL(3, 2)) AS stars, r.course_id
+             FROM courses c LEFT JOIN reviews r ON c.id=r.course_id GROUP BY r.course_id, c.name ORDER BY stars DESC'''
     return db.session.execute(text(sql)).fetchall()
