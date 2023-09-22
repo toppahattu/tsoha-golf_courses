@@ -8,7 +8,7 @@ def get_coords():
     return db.session.execute(text(sql))
 
 def get_course_info(course_id):
-    sql = '''SELECT c.id, c.name, c.description, a.street, a.postal_code, a.city, h.caddiemaster
+    sql = '''SELECT c.id, c.name, c.description, c.www, a.street, a.postal_code, a.city, h.caddiemaster
              FROM courses c, address a, clubhouse h
              WHERE c.id=:course_id AND c.id=h.course_id AND c.id=a.course_id'''
     return db.session.execute(text(sql), {'course_id': course_id}).fetchone()
@@ -44,17 +44,20 @@ def get_clubhouse_info(course_id):
 def add_course():
     name = request.form['name']
     description = request.form['description']
-    sql = 'INSERT INTO courses (name, description) VALUES (:name, :description) RETURNING id'
+    www = request.form['www']
+    sql = 'INSERT INTO courses (name, description, www) VALUES (:name, :description, :www) RETURNING id'
     course_id = db.session.execute(text(sql),
-                                   {'name': name,'description': description}).fetchone()[0]
+                                   {'name': name,'description': description, 'www': www}).fetchone()[0]
 
     sql = '''INSERT INTO address (course_id, street, postal_code, city, coordinates)
              VALUES (:course_id, :street, :postal, :city, :coords)'''
     add_address(course_id, sql)
+
     sql = '''INSERT INTO training_areas (course_id, has_range,
              has_practice_green, has_short_game_area)
              VALUES (:course_id, :range, :green, :short)'''
     add_training(course_id, sql)
+    
     sql = '''INSERT INTO clubhouse (course_id, caddiemaster, has_restaurant,
              has_pro_shop, has_locker_room, has_sauna)
              VALUES (:course_id, :caddie, :restaurant, :pro_shop, :locker, :sauna)'''
@@ -66,18 +69,21 @@ def add_course():
 def edit_course(course_id):
     name = request.form['name']
     description = request.form['description']
-    sql = 'UPDATE courses SET name=:name, description=:description WHERE id=:course_id'
+    www = request.form['www']
+    sql = 'UPDATE courses SET name=:name, description=:description, www=:www WHERE id=:course_id'
     db.session.execute(text(sql),
-                       {'name': name, 'description': description, 'course_id': course_id})
+                       {'name': name, 'description': description, 'www': www, 'course_id': course_id})
 
     sql =  '''UPDATE address SET street=:street, postal_code=:postal,
               city=:city, coordinates=:coords
               WHERE course_id=:course_id'''
     add_address(course_id, sql)
+
     sql = '''UPDATE training_areas SET has_range=:range,
              has_practice_green=:green, has_short_game_area=:short
              WHERE course_id=:course_id'''
     add_training(course_id, sql)
+
     sql = '''UPDATE clubhouse SET caddiemaster=:caddie,
              has_restaurant=:restaurant, has_pro_shop=:pro_shop,
              has_locker_room=:locker, has_sauna=:sauna

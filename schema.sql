@@ -9,7 +9,8 @@ CREATE TABLE users (
 CREATE TABLE courses (
     id SERIAL PRIMARY KEY,
     name TEXT,
-    description TEXT
+    description TEXT,
+    www TEXT
 );
 
 CREATE TABLE reviews (
