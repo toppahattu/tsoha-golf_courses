@@ -13,3 +13,10 @@ Sovelluksen ominaisuuksia ovat:
 * Käyttäjä näkee myös listan, jossa golfkentät on järjestetty parhaimmasta huonoimpaan arvioiden mukaisesti.
 * Ylläpitäjä voi tarvittaessa poistaa käyttäjän antaman arvion.
 * Ylläpitäjä voi luoda ryhmiä, joihin golfkenttiä voi luokitella. Golfkenttä voi kuulua yhteen tai useampaan ryhmään.
+
+
+Sovellus on testattavissa osoitteessa: https://tsoha-golfcourses.fly.dev/
+
+Tällä hetkellä puuttuvat ominaisuudet (22.9.2023):
+* Käyttäjä voi etsiä golfkenttiä esim. sijainnin tai palveluiden perusteella.
+* Ylläpitäjä voi luoda ryhmiä, joihin golfkenttiä voi luokitella. Golfkenttä voi kuulua yhteen tai useampaan ryhmään.
