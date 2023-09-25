@@ -66,7 +66,7 @@
     <form action="/edit/{{ course_id }}" method="GET">
         <input type="submit" value="Muokkaa kentän tietoja" />
     </form>
-    <form action="/removecourse" method="POST" onsubmit="return window.confirm('Haluatko poistaa kentän tiedot?')">
+    <form action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa kentän tiedot?')">
         <input type="submit" value="Poista kentän tiedot" />
         <input type="hidden" name="course" value="{{ course_id }}" />
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
