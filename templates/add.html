@@ -1,13 +1,13 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<body>
+<script src="/static/addLayout.js"></script>
 <h2>Lisää uusi golfkenttä</h2>
-<form action="/add" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
+<form id="courseform" action="/add" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
     <fieldset id="courseinfo">
         <legend>Perustiedot</legend>
         <div>
-            <label for="name">Kentän nimi:
+            <label for="name">Nimi:
                 <input type="text" name="name" id="name" required/>
             </label>
         </div>
@@ -32,8 +32,28 @@
             </label>
         </div>
         <div>
-            <label for="description">Kentän kuvaus:</label>
+            <label for="description">Kuvaus:</label>
             <textarea id="description" name="description" rows="10" cols="50" maxlength="1000"></textarea>
+        </div>
+    </fieldset>
+    <fieldset id="layouts">
+        <legend>Kentät</legend>
+        <div class="layoutcontainer">
+            <div>
+                <label>Kentän nimi:
+                    <input type="text" name="layoutname" required/>
+                </label>
+            </div>
+            <div>
+                <label>Kentän par:
+                    <input type="text" name="layoutpar" required/>
+                </label>
+            </div>
+            <div>
+                <label>Kentän reikien lukumäärä:
+                    <input type="text" name="layoutholes" required/>
+                </label>
+            </div>
         </div>
     </fieldset>
     <fieldset id="training">
