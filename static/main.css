@@ -7,11 +7,29 @@
 form {
     width: fit-content;
 }
+form fieldset {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
 
 #personinfo input,
 #login input,
-#courseinfo input {
+#courseinfo input,
+#layouts input {
     float: right;
+}
+
+.layoutcontainer {
+    padding-top: 0.5em;
+    border: 1px solid gray;
+}
+
+.editcontainer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border: 1px solid gray;
 }
 
 div {

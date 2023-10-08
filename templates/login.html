@@ -1,25 +1,24 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<body>
-    <h2>Kirjaudu sisään</h2>
-    <p>Palaa <a href="/">takaisin</a>.</p>
-    <form action="/login" method="POST">
-        <fieldset id="login">
-            <div>
-                <label for="username">Käyttäjätunnus:
-                    <input type="text" name="username" id="username" />
-                </label>
-            </div>
-            <div>
-                <label for="password">Salasana:
-                    <input type="password" name="password" id="password" />
-                </label>
-            </div>
-        </fieldset>
-        <input type="submit" value="Kirjaudu" />
-    </form>
-    <p>Jos sinulla ei ole tunnusta, voit luoda ne <a href="/register">tästä</a>.</p>
+<h2>Kirjaudu sisään</h2>
+<p>Palaa <a href="/">takaisin</a>.</p>
+<form action="/login" method="POST">
+    <fieldset id="login">
+        <div>
+            <label for="username">Käyttäjätunnus:
+                <input type="text" name="username" id="username" />
+            </label>
+        </div>
+        <div>
+            <label for="password">Salasana:
+                <input type="password" name="password" id="password" />
+            </label>
+        </div>
+    </fieldset>
+    <input type="submit" value="Kirjaudu" />
+</form>
+<p>Jos sinulla ei ole tunnusta, voit luoda ne <a href="/register">tästä</a>.</p>
 </body>
 </html>
 

@@ -1,27 +1,27 @@
 {% extends 'layout.html' %}
 {% block content %}
-<body>
+
 <h2>Etusivu</h2>
 
 {% if session.user_id %}
-<p>Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>.</p><a href="/logout">Kirjaudu ulos</a>
+<div>Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>.<a href="/logout">Kirjaudu ulos</a></div>
 
 {% else %}
-<p>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a> tai <a href="/register">rekisteröidy</a>.</p>
+<div>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a> tai <a href="/register">rekisteröidy</a>.</div>
 {% endif %}
 
 <div class="index-course-container">
-    {% include 'map.html' %}
     {% if session.user_role == 1 %}
     <div>
         <h3>Kentät arvostelujen mukaan</h3>
         <ul>
             {% for rating in ratings %}
-            <li><a href="/course/{{ rating.course_id }}">{{ rating.name }}</a> {{ rating.stars }}</li>
+            <li><a href="/course/{{ rating.id }}">{{ rating.name }}</a> {{ rating.stars }}</li>
             {% endfor %}
         </ul>
     </div>
     {% endif %}
+    {% include 'map.html' %}
 </div>
 
 {% if session.user_role == 2 %}
@@ -30,7 +30,7 @@
 <p><a href="/add">Lisää uusi kenttä</a></p>
 
 {% endif %}
-
 </body>
 </html>
+
 {% endblock %}
