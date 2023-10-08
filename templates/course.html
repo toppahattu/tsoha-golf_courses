@@ -1,78 +1,82 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<body>
-    <h2>Kentän {{ info.name }} tiedot</h2>
-    <p>{{ info.street }}</p>
-    <p>{{ info.postal_code }} {{ info.city }}</p>
-    <p>Caddiemaster: {{ info.caddiemaster }}</p>
-    <p><a href="{{ info.www }}">{{ info.www }}</a></p>
-    <p>{{ info.description }}</p>
-    <h3>Harjoitusalueet</h3>
-    <ul>
-        {% for area in training %}
-        <li>{{ area }}</li>
-        {% endfor %}
-    </ul>
-    <h3>Klubitalon palvelut</h3>
-    <ul>
-        {% for item in clubhouse %}
-        <li>{{ item }}</li>
-        {% endfor %}
-    </ul>
-
-    <h3>Kentän arvostelu:</h3>
-    {% if session.user_role == 1 %}
-    <form action="/review" method="POST" onsubmit="return window.confirm('Haluatko jättää tämän arvostelun?')">
+<h2>Kentän {{ info.name }} tiedot</h2>
+<p>{{ info.street }}</p>
+<p>{{ info.postal_code }} {{ info.city }}</p>
+<p>Caddiemaster: {{ info.caddiemaster }}</p>
+<p><a href="{{ info.www }}">{{ info.www }}</a></p>
+<p>{{ info.description }}</p>
+<h3>Kentät</h3>
+{% for layout in layouts %}
+<div>
+    <p>Nimi: {{ layout.name }}</p>
+    <p>Par: {{ layout.par }}</p>
+    <p>Reikien lukumäärä: {{ layout.holes }}</p>
+</div>
+{% endfor %}
+<h3>Harjoitusalueet</h3>
+<ul>
+    {% for area in training %}
+    <li>{{ area }}</li>
+    {% endfor %}
+</ul>
+<h3>Klubitalon palvelut</h3>
+<ul>
+    {% for item in clubhouse %}
+    <li>{{ item }}</li>
+    {% endfor %}
+</ul>
+<h3>Kentän arvostelu:</h3>
+{% if session.user_role == 1 %}
+<form action="/review" method="POST" onsubmit="return window.confirm('Haluatko jättää tämän arvostelun?')">
+    <fieldset>
+        <legend>Anna 1-5 tähteä</legend>
+        <div class="rating">
+            {% for i in range(1,6) %}
+            {% if review and review.stars == i %}
+            <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" checked />
+            <label for="star{{ i }}">{{ i }}</label>
+            {% else %}
+            <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" />
+            <label for="star{{ i }}">{{ i }}</label>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </fieldset>
+    <div>
         <fieldset>
-            <legend>Anna 1-5 tähteä</legend>
-            <div class="rating">
-                {% for i in range(1,6) %}
-                {% if review and review.stars == i %}
-                <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" checked />
-                <label for="star{{ i }}">{{ i }}</label>
-                {% else %}
-                <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" />
-                <label for="star{{ i }}">{{ i }}</label>
-                {% endif %}
-                {% endfor %}
-            </div>
+            <legend>Anna kommentti kentästä {{ info.name }}:</legend>
+            <textarea id="comment" name="comment" rows="10" cols="50" maxlength="1000">
+            {% if review %}
+            {{ review.comment }}
+            {% endif %}
+            </textarea>
         </fieldset>
-        <div>
-            <fieldset>
-                <legend>Anna kommentti kentästä {{ info.name }}:</legend>
-                <textarea id="comment" name="comment" rows="10" cols="50" maxlength="1000">
-                {% if review %}
-                {{ review.comment }}
-                {% endif %}
-                </textarea>
-            </fieldset>
-        </div>
-        <div>
-            <input type="submit" value="Jätä arvostelu" />
-        </div>
-        <input type="hidden" name="course" value="{{ course_id }}" />
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-        {% if review %}
-        <input type="hidden" name="update" value="update" />
-        {% endif %}
-    </form>
+    </div>
+    <div>
+        <input type="submit" value="Jätä arvostelu" />
+    </div>
+    <input type="hidden" name="course" value="{{ course_id }}" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    {% if review %}
+    <input type="hidden" name="update" value="update" />
     {% endif %}
-
-    <p>Katso <a href="/reviews/{{ course_id }}">kaikki arvostelut</a> kentästä {{ info.name }}</p>
-
-    {% if session.user_role == 2 %}
-    <h3>Ylläpitäjän toiminnot</h3>
-    <form action="/edit/{{ course_id }}" method="GET">
-        <input type="submit" value="Muokkaa kentän tietoja" />
-    </form>
-    <form action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa kentän tiedot?')">
-        <input type="submit" value="Poista kentän tiedot" />
-        <input type="hidden" name="course" value="{{ course_id }}" />
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    </form>
-    {% endif %}
-    <p>Palaa <a href="/">etusivulle</a></p>
+</form>
+{% endif %}
+<p>Katso <a href="/reviews/{{ course_id }}">kaikki arvostelut</a> kentästä {{ info.name }}</p>
+{% if session.user_role == 2 %}
+<h3>Ylläpitäjän toiminnot</h3>
+<form action="/edit/{{ course_id }}" method="GET">
+    <input type="submit" value="Muokkaa kentän tietoja" />
+</form>
+<form action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa kentän tiedot?')">
+    <input type="submit" value="Poista kentän tiedot" />
+    <input type="hidden" name="course" value="{{ course_id }}" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+</form>
+{% endif %}
+<p>Palaa <a href="/">etusivulle</a></p>
 </body>
 </html>
 

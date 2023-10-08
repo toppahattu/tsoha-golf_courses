@@ -1,9 +1,9 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<body>
+<script src="/static/addLayout.js"></script>
 <h2>Muokkaa golfkentän tietoja</h2>
-<form action="/edit/{{ course_id }}" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
+<form id="courseform" action="/edit/{{ course_id }}" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
     <fieldset id="courseinfo">
         <legend>Perustiedot</legend>
         <div>
@@ -36,6 +36,39 @@
             <textarea id="description" name="description" rows="10" cols="50" maxlength="1000" >
                 {{ info.description }}
             </textarea>
+        </div>
+    </fieldset>
+    <fieldset id="layouts">
+        <legend>Kentät</legend>
+        {% for layout in layouts %}
+        <div class="editcontainer">
+            <div>
+                <p>Nimi: {{ layout.name }}</p>
+                <p>Par: {{ layout.par }}</p>
+                <p>Reikien lukumäärä: {{ layout.holes }}</p>
+            </div>
+            <input type="submit" value="Poista" form="removelayout{{ layout.id }}" />
+            <input type="hidden" name="course" value="{{ course_id }}" form="removelayout{{ layout.id }}" />
+            <input type="hidden" name="layout" value="{{ layout.id }}" form="removelayout{{ layout.id }}" />
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" form="removelayout{{ layout.id }}" />
+        </div>
+        {% endfor %}
+        <div class="layoutcontainer">
+            <div>
+                <label>Kentän nimi:
+                    <input type="text" name="layoutname" required/>
+                </label>
+            </div>
+            <div>
+                <label>Kentän par:
+                    <input type="text" name="layoutpar" required/>
+                </label>
+            </div>
+            <div>
+                <label>Kentän reikien lukumäärä:
+                    <input type="text" name="layoutholes" required/>
+                </label>
+            </div>
         </div>
     </fieldset>
     <fieldset id="training">
@@ -106,10 +139,13 @@
         </div>
     </fieldset>
     <div>
-        <input type="submit" value="Lisää muokkaukset" />
+        <input type="submit" value="Lisää muokkaukset" form="courseform" />
     </div>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" form="courseform" />
 </form>
+{% for layout in layouts %}
+<form id="removelayout{{ layout.id }}" action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa tämän kentän?')"></form>
+{% endfor %}
 <p>Palaa <a href="/">etusivulle</a></p>
 </body>
 </html>

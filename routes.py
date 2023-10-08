@@ -22,10 +22,11 @@ def index():
 @app.route('/course/<int:course_id>')
 def show_course(course_id):
     course_info = courses.get_course_info(course_id)
+    course_layouts = courses.get_course_layouts(course_id)
     course_training = courses.get_training_areas(course_id)
     course_clubhouse = courses.get_clubhouse_info(course_id)
     review = courses.get_review(course_id, users.user_id())
-    return render_template('course.html', course_id=course_id, info=course_info,
+    return render_template('course.html', course_id=course_id, info=course_info, layouts=course_layouts,
                            training=course_training, clubhouse=course_clubhouse, review=review)
 
 @app.route('/edit/<int:course_id>', methods=['GET', 'POST'])
@@ -33,13 +34,15 @@ def edit_course(course_id):
     users.require_role(2)
     if request.method == 'GET':
         course_info = courses.get_course_info(course_id)
+        course_layouts = courses.get_course_layouts(course_id)
         course_training = courses.get_training_areas(course_id)
         course_clubhouse = courses.get_clubhouse_info(course_id)
-        return render_template('edit.html', course_id=course_id, info=course_info,
+        return render_template('edit.html', course_id=course_id, info=course_info, layouts=course_layouts,
                                training=course_training, clubhouse=course_clubhouse)
     if request.method == 'POST':
         users.check_csrf()
-        courses.edit_course(course_id)
+        if not courses.edit_course(course_id):
+            return render_template('error.html', message='Kentän muokkaaminen ei onnistunut')
     return redirect(f'/course/{course_id}')
 
 @app.route('/add', methods=['GET', 'POST'])
@@ -64,6 +67,11 @@ def remove():
             user_id = users.user_id(request.form['user'])
             courses.remove_review(user_id, course_id)
             return redirect(f'/reviews/{course_id}')
+        if 'layout' in request.form:
+            layout_id = request.form['layout']
+            print(layout_id)
+            courses.remove_layout(layout_id)
+            return redirect(f'/edit/{course_id}')
         courses.remove_course(course_id)
     return redirect('/')
 
