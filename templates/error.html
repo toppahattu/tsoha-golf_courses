@@ -1,9 +1,10 @@
 {% extends 'layout.html' %}
 {% block content %}
-
-<p>Virhe: {{ message }}</p>
-<p>Palaa takaisin <a href="/">etusivulle</a></p>
-</body>
-</html>
-
+<div class="row">
+    <div class="col">
+        <h2>Virhe</h2>
+        <p><b>{{ message }}.</b></p>
+        <p>Palaa takaisin <a href="/">etusivulle</a></p>
+    </div>
+</div>
 {% endblock %}

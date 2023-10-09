@@ -1,45 +1,50 @@
 {% extends 'layout.html' %}
 {% block content %}
-
-<h2>Rekisteröidy</h2>
-<form action="/register" method="POST">
-    <fieldset id="personinfo">
-        <div>
-            <label for="name">Anna koko nimesi:
-                <input type="text" name="name" id="name" required />
-            </label>
-        </div>
-        <div>
-            <label for="username">Valitse käyttäjätunnus:
-                <input type="text" name="username" id="username" required />
-            </label>
-        </div>
-        <div>
-            <label for="password1">Valitse salasana:
-                <input type="password" name="password1" id="password1" required />
-            </label>
-        </div>
-        <div>
-            <label for="password2">Anna salasana uudestaan:
-                <input type="password" name="password2" id="password2" required />
-            </label>
-        </div>
-    </fieldset>
-    <fieldset>
-        <legend>Valitse rooli:</legend>
-        <div>
-            <input type="radio" id="basic" name="role" value=1 checked/>
-            <label for="basic">Käyttäjä</label> 
-            <input type="radio" id="admin" name="role" value=2 />
-            <label for="admin">Ylläpitäjä</label>          
-        </div>
-    </fieldset>
-    <div>
-        <input type="submit" value="Luo tunnus" />
+<div class="row">
+    <div class="col">
+        <h2>Rekisteröidy</h2>
+        <form action="/register" method="POST">
+            <fieldset>
+                <legend>Henkilötiedot</legend>
+                <div class="form-group">
+                    <label for="name">Anna koko nimesi:
+                        <input type="text" class="form-control" name="name" id="name" required />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="username">Valitse käyttäjätunnus:
+                        <input type="text" class="form-control" name="username" id="username" required />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="password1">Valitse salasana:
+                        <input type="password" class="form-control" name="password1" id="password1" required />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="password2">Anna salasana uudestaan:
+                        <input type="password" class="form-control" name="password2" id="password2" required />
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Valitse rooli</legend>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="basic" name="role" value=1 checked />
+                    <label class="form-check-label" for="basic">Käyttäjä</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="admin" name="role" value=2 />
+                    <label class="form-check-label" for="admin">Ylläpitäjä</label>          
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Luo tunnus</button>
+        </form>
     </div>
-</form>
-<p>Palaa <a href="/">takaisin</a></p>
-</body>
-</html>
-
+</div>
+<div class="row">
+    <div class="col">
+        <p>Palaa <a href="/">takaisin</a> etusivulle.</p>
+    </div>
+</div>
 {% endblock %}

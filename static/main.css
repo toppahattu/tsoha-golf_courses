@@ -1,26 +1,9 @@
-*{
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-}
-
 form {
     width: fit-content;
 }
-form fieldset {
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-}
-
-#personinfo input,
-#login input,
-#courseinfo input,
-#layouts input {
-    float: right;
-}
 
 .layoutcontainer {
-    padding-top: 0.5em;
+    padding: 0.5em;
     border: 1px solid gray;
 }
 
@@ -29,16 +12,8 @@ form fieldset {
     justify-content: space-between;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
+    padding-right: 0.5em;
     border: 1px solid gray;
-}
-
-div {
-    margin-bottom: 0.5em;
-}
-
-.index-course-container{
-    display: flex;
-    justify-content: space-between;
 }
 
 #reviews {

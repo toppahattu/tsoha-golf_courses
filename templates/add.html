@@ -1,107 +1,115 @@
 {% extends 'layout.html' %}
 {% block content %}
-
 <script src="/static/addLayout.js"></script>
-<h2>Lisää uusi golfkenttä</h2>
-<form id="courseform" action="/add" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
-    <fieldset id="courseinfo">
-        <legend>Perustiedot</legend>
-        <div>
-            <label for="name">Nimi:
-                <input type="text" name="name" id="name" required/>
-            </label>
-        </div>
-        <div>
-            <label for="street">Katuosoite:
-                <input type="text" name="street" id="street" required/>
-            </label>
-        </div>
-        <div>
-            <label for="postal">Postinumero:
-                <input type="text" name="postal" id="postal" required/>
-            </label>
-        </div>
-        <div>
-            <label for="city">Kaupunki:
-                <input type="text" name="city" id="city" required/>
-            </label>
-        </div>
-        <div>
-            <label for="www">www-osoite:
-                <input type="text" name="www" id="www" required/>
-            </label>
-        </div>
-        <div>
-            <label for="description">Kuvaus:</label>
-            <textarea id="description" name="description" rows="10" cols="50" maxlength="1000"></textarea>
-        </div>
-    </fieldset>
-    <fieldset id="layouts">
-        <legend>Kentät</legend>
-        <div class="layoutcontainer">
-            <div>
-                <label>Kentän nimi:
-                    <input type="text" name="layoutname" required/>
-                </label>
-            </div>
-            <div>
-                <label>Kentän par:
-                    <input type="text" name="layoutpar" required/>
-                </label>
-            </div>
-            <div>
-                <label>Kentän reikien lukumäärä:
-                    <input type="text" name="layoutholes" required/>
-                </label>
-            </div>
-        </div>
-    </fieldset>
-    <fieldset id="training">
-        <legend>Lisää harjoitusalueet</legend>
-        <div>
-            <input type="checkbox" id="range" name="training" value="range" />
-            <label for="range">Range</label>
-        </div>
-        <div>
-            <input type="checkbox" id="green" name="training" value="green" />
-            <label for="green">Harjoitusviheriö</label>
-        </div>
-        <div>
-            <input type="checkbox" id="short" name="training" value="short" />
-            <label for="short">Lähipelialue</label>
-        </div>
-    </fieldset>
-    <fieldset id="courseservice">
-        <legend>Lisää klubitalon palvelut</legend>
-        <div>
-            <label for="caddie">Caddiemaster (puhelinnumero muodossa +358):
-                <input type="text" name="caddie" id="caddie" required/>
-            </label>
-        </div>
-        <div>
-            <input type="checkbox" id="restaurant" name="club" value="restaurant" />
-            <label for="restaurant">Ravintola</label>
-        </div>
-        <div>
-            <input type="checkbox" id="proshop" name="club" value="proshop" />
-            <label for="proshop">Pro shop</label>
-        </div>
-        <div>
-            <input type="checkbox" id="locker" name="club" value="locker" />
-            <label for="locker">Pukuhuoneet</label>
-        </div>
-        <div>
-            <input type="checkbox" id="sauna" name="club" value="sauna" />
-            <label for="sauna">Sauna</label>
-        </div>
-    </fieldset>
-    <div>
-        <input type="submit" value="Lisää kenttä" />
+<div class="row">
+    <div class="col">
+        <h2>Lisää uusi golfkenttä</h2>
+        <form id="courseform" action="/add" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
+            <fieldset>
+                <legend>Perustiedot</legend>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="name">Nimi:
+                            <input type="text" class="form-control" name="name" id="name" required/>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="www">www-osoite:
+                            <input type="text" class="form-control" name="www" id="www" required/>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="street">Katuosoite:
+                            <input type="text" class="form-control" name="street" id="street" required/>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="postal">Postinumero:
+                            <input type="text" class="form-control" name="postal" id="postal" required/>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="city">Kaupunki:
+                            <input type="text" class="form-control" name="city" id="city" required/>
+                        </label>
+                    </div>
+                </div>                                
+                <div class="form-group">
+                    <label for="description">Kuvaus:</label>
+                    <textarea class="form-control" id="description" name="description" rows="10" cols="50" maxlength="1000"></textarea>
+                </div>
+            </fieldset>
+            <fieldset id="layouts">
+                <legend>Kentät</legend>
+                <div class="layoutcontainer">
+                    <div class="form-group">
+                        <label>Kentän nimi:
+                            <input type="text" class="form-control" name="layoutname" required/>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Kentän par:
+                            <input type="text" class="form-control" name="layoutpar" required/>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Kentän reikien lukumäärä:
+                            <input type="text" class="form-control" name="layoutholes" required/>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Lisää harjoitusalueet</legend>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="range" name="training" value="range" />
+                    <label class="form-check-label" for="range">Range</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="green" name="training" value="green" />
+                    <label class="form-check-label" for="green">Harjoitusviheriö</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="short" name="training" value="short" />
+                    <label class="form-check-label" for="short">Lähipelialue</label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Lisää klubitalon palvelut</legend>
+                <div class="form-group">
+                    <label for="caddie">Caddiemaster (puhelinnumero muodossa +358):
+                        <input type="text" class="form-control" name="caddie" id="caddie" required/>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="restaurant" name="club" value="restaurant" />
+                    <label class="form-check-label" for="restaurant">Ravintola</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="proshop" name="club" value="proshop" />
+                    <label class="form-check-label" for="proshop">Pro shop</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="locker" name="club" value="locker" />
+                    <label class="form-check-label" for="locker">Pukuhuoneet</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="sauna" name="club" value="sauna" />
+                    <label class="form-check-label" for="sauna">Sauna</label>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Lisää kenttä</button>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+        </form>
     </div>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-</form>
-<p>Palaa <a href="/">takaisin</a></p>
-</body>
-</html>
-
+</div>
+<div class="row">
+    <div class="col">
+        <p>Palaa <a href="/">takaisin</a>.</p>
+    </div>
+</div>
 {% endblock %}

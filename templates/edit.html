@@ -1,153 +1,165 @@
 {% extends 'layout.html' %}
 {% block content %}
-
 <script src="/static/addLayout.js"></script>
-<h2>Muokkaa golfkentän tietoja</h2>
-<form id="courseform" action="/edit/{{ course_id }}" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
-    <fieldset id="courseinfo">
-        <legend>Perustiedot</legend>
-        <div>
-            <label for="name">Kentän nimi:
-                <input type="text" name="name" id="name" value="{{ info.name }}" required/>
-            </label>
-        </div>
-        <div>
-            <label for="street">Katuosoite:
-                <input type="text" name="street" id="street" value="{{ info.street }}" required/>
-            </label>
-        </div>
-        <div>
-            <label for="postal">Postinumero:
-                <input type="text" name="postal" id="postal" value="{{ info.postal_code }}" required/>
-            </label>
-        </div>
-        <div>
-            <label for="city">Kaupunki:
-                <input type="text" name="city" id="city" value="{{ info.city }}" required/>
-            </label>
-        </div>
-        <div>
-            <label for="www">www-osoite:
-                <input type="text" name="www" id="www" value="{{ info.www }}" required/>
-            </label>
-        </div>
-        <div>
-            <label for="description">Kentän kuvaus:</label>
-            <textarea id="description" name="description" rows="10" cols="50" maxlength="1000" >
-                {{ info.description }}
-            </textarea>
-        </div>
-    </fieldset>
-    <fieldset id="layouts">
-        <legend>Kentät</legend>
-        {% for layout in layouts %}
-        <div class="editcontainer">
-            <div>
-                <p>Nimi: {{ layout.name }}</p>
-                <p>Par: {{ layout.par }}</p>
-                <p>Reikien lukumäärä: {{ layout.holes }}</p>
-            </div>
-            <input type="submit" value="Poista" form="removelayout{{ layout.id }}" />
-            <input type="hidden" name="course" value="{{ course_id }}" form="removelayout{{ layout.id }}" />
-            <input type="hidden" name="layout" value="{{ layout.id }}" form="removelayout{{ layout.id }}" />
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" form="removelayout{{ layout.id }}" />
-        </div>
-        {% endfor %}
-        <div class="layoutcontainer">
-            <div>
-                <label>Kentän nimi:
-                    <input type="text" name="layoutname" required/>
-                </label>
-            </div>
-            <div>
-                <label>Kentän par:
-                    <input type="text" name="layoutpar" required/>
-                </label>
-            </div>
-            <div>
-                <label>Kentän reikien lukumäärä:
-                    <input type="text" name="layoutholes" required/>
-                </label>
-            </div>
-        </div>
-    </fieldset>
-    <fieldset id="training">
-        <legend>Lisää harjoitusalueet</legend>
-        <div>
-            {% if 'Range' in training %}
-            <input type="checkbox" id="range" name="training" value="range" checked />
-            {% else %}
-            <input type="checkbox" id="range" name="training" value="range" />
-            {% endif %}
-            <label for="range">Range</label>
-        </div>
-        <div>
-            {% if 'Harjoitusviheriö' in training %}
-            <input type="checkbox" id="green" name="training" value="green" checked />
-            {% else %}
-            <input type="checkbox" id="green" name="training" value="green" />
-            {% endif %}
-            <label for="green">Harjoitusviheriö</label>
-        </div>
-        <div>
-            {% if 'Lähipelialue' in training %}
-            <input type="checkbox" id="short" name="training" value="short" checked />
-            {% else %}
-            <input type="checkbox" id="short" name="training" value="short" />
-            {% endif %}
-            <label for="short">Lähipelialue</label>
-        </div>
-    </fieldset>
-    <fieldset id="courseservice">
-        <legend>Lisää klubitalon palvelut</legend>
-        <div>
-            <label for="caddie">Caddiemaster (puhelinnumero muodossa +358):
-                <input type="text" name="caddie" id="caddie" value="{{ info.caddiemaster }}" required/>
-            </label>
-        </div>
-        <div>
-            {% if 'Ravintola' in clubhouse %}
-            <input type="checkbox" id="restaurant" name="club" value="restaurant" checked />
-            {% else %}
-            <input type="checkbox" id="restaurant" name="club" value="restaurant" />
-            {% endif %}
-            <label for="restaurant">Ravintola</label>
-        </div>
-        <div>
-            {% if 'Pro shop' in clubhouse %}
-            <input type="checkbox" id="proshop" name="club" value="proshop" checked />
-            {% else %}
-            <input type="checkbox" id="proshop" name="club" value="proshop" />
-            {% endif %}
-            <label for="proshop">Pro shop</label>
-        </div>
-        <div>
-            {% if 'Pukuhuoneet' in clubhouse %}
-            <input type="checkbox" id="locker" name="club" value="locker" checked />
-            {% else %}
-            <input type="checkbox" id="locker" name="club" value="locker" />
-            {% endif %}
-            <label for="locker">Pukuhuoneet</label>
-        </div>
-        <div>
-            {% if 'Sauna' in clubhouse %}
-            <input type="checkbox" id="sauna" name="club" value="sauna" checked />
-            {% else %}
-            <input type="checkbox" id="sauna" name="club" value="sauna" />
-            {% endif %}
-            <label for="sauna">Sauna</label>
-        </div>
-    </fieldset>
-    <div>
-        <input type="submit" value="Lisää muokkaukset" form="courseform" />
+<div class="row">
+    <div class="col">
+        <h2>Muokkaa golfkentän tietoja</h2>
+        <form id="courseform" action="/edit/{{ course_id }}" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
+            <fieldset id="courseinfo">
+                <legend>Perustiedot</legend>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="name">Kentän nimi:
+                            <input type="text" class="form-control" name="name" id="name" value="{{ info.name }}" required/>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="www">www-osoite:
+                            <input type="text" class="form-control" name="www" id="www" value="{{ info.www }}" required/>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="street">Katuosoite:
+                            <input type="text" class="form-control" name="street" id="street" value="{{ info.street }}" required/>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="postal">Postinumero:
+                            <input type="text" class="form-control" name="postal" id="postal" value="{{ info.postal_code }}" required/>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="city">Kaupunki:
+                            <input type="text" class="form-control" name="city" id="city" value="{{ info.city }}" required/>
+                        </label>
+                    </div>
+                </div>                
+                <div class="form-group">
+                    <label for="description">Kentän kuvaus:</label>
+                    <textarea class="form-control" id="description" name="description" rows="10" cols="50" maxlength="1000" >
+                        {{ info.description }}
+                    </textarea>
+                </div>
+            </fieldset>
+            <fieldset id="layouts">
+                <legend>Kentät</legend>
+                {% for layout in layouts %}
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-row">
+                            <div class="col">Nimi: {{ layout.name }}</div>
+                            <div class="col">Par: {{ layout.par }}</div>
+                            <div class="col">Reikien lukumäärä: {{ layout.holes }}</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary" form="removelayout{{ layout.id }}">Poista</button>
+                        <input type="hidden" name="course" value="{{ course_id }}" form="removelayout{{ layout.id }}" />
+                        <input type="hidden" name="layout" value="{{ layout.id }}" form="removelayout{{ layout.id }}" />
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" form="removelayout{{ layout.id }}" />
+                    </div>                    
+                </div>
+                {% endfor %}
+                <div class="layoutcontainer">
+                    <div class="form-group">
+                        <label>Kentän nimi:
+                            <input type="text" class="form-control" name="layoutname" />
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Kentän par:
+                            <input type="text" class="form-control" name="layoutpar" />
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Kentän reikien lukumäärä:
+                            <input type="text" class="form-control" name="layoutholes" />
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Lisää harjoitusalueet</legend>
+                <div class="form-check">
+                    {% if 'Range' in training %}
+                    <input type="checkbox" class="form-check-input" id="range" name="training" value="range" checked />
+                    {% else %}
+                    <input type="checkbox" class="form-check-input" id="range" name="training" value="range" />
+                    {% endif %}
+                    <label class="form-check-label" for="range">Range</label>
+                </div>
+                <div class="form-check">
+                    {% if 'Harjoitusviheriö' in training %}
+                    <input type="checkbox" class="form-check-input" id="green" name="training" value="green" checked />
+                    {% else %}
+                    <input type="checkbox" class="form-check-input" id="green" name="training" value="green" />
+                    {% endif %}
+                    <label class="form-check-label" for="green">Harjoitusviheriö</label>
+                </div>
+                <div class="form-check">
+                    {% if 'Lähipelialue' in training %}
+                    <input type="checkbox" class="form-check-input" id="short" name="training" value="short" checked />
+                    {% else %}
+                    <input type="checkbox" class="form-check-input" id="short" name="training" value="short" />
+                    {% endif %}
+                    <label class="form-check-label" for="short">Lähipelialue</label>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Lisää klubitalon palvelut</legend>
+                <div class="form-group">
+                    <label for="caddie">Caddiemaster (puhelinnumero muodossa +358):
+                        <input type="text" class="form-control" name="caddie" id="caddie" value="{{ info.caddiemaster }}" required/>
+                    </label>
+                </div>
+                <div class="form-check">
+                    {% if 'Ravintola' in clubhouse %}
+                    <input type="checkbox" class="form-check-input" id="restaurant" name="club" value="restaurant" checked />
+                    {% else %}
+                    <input type="checkbox" class="form-check-input" id="restaurant" name="club" value="restaurant" />
+                    {% endif %}
+                    <label class="form-check-label" for="restaurant">Ravintola</label>
+                </div>
+                <div class="form-check">
+                    {% if 'Pro shop' in clubhouse %}
+                    <input type="checkbox" class="form-check-input" id="proshop" name="club" value="proshop" checked />
+                    {% else %}
+                    <input type="checkbox" class="form-check-input" id="proshop" name="club" value="proshop" />
+                    {% endif %}
+                    <label class="form-check-label" for="proshop">Pro shop</label>
+                </div>
+                <div class="form-check">
+                    {% if 'Pukuhuoneet' in clubhouse %}
+                    <input type="checkbox" class="form-check-input" id="locker" name="club" value="locker" checked />
+                    {% else %}
+                    <input type="checkbox" class="form-check-input" id="locker" name="club" value="locker" />
+                    {% endif %}
+                    <label class="form-check-label" for="locker">Pukuhuoneet</label>
+                </div>
+                <div class="form-check">
+                    {% if 'Sauna' in clubhouse %}
+                    <input type="checkbox" class="form-check-input" id="sauna" name="club" value="sauna" checked />
+                    {% else %}
+                    <input type="checkbox" class="form-check-input" id="sauna" name="club" value="sauna" />
+                    {% endif %}
+                    <label class="form-check-label" for="sauna">Sauna</label>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary" form="courseform">Lisää muokkaukset</button>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" form="courseform" />
+        </form>
     </div>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" form="courseform" />
-</form>
+</div>
+<div class="row">
+    <div class="col">
+        <p>Palaa <a href="/">etusivulle</a>.</p>
+    </div>
+</div>
 {% for layout in layouts %}
 <form id="removelayout{{ layout.id }}" action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa tämän kentän?')"></form>
 {% endfor %}
-<p>Palaa <a href="/">etusivulle</a></p>
-</body>
-</html>
-
 {% endblock %}

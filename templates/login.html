@@ -1,25 +1,33 @@
 {% extends 'layout.html' %}
 {% block content %}
-
-<h2>Kirjaudu sisään</h2>
-<p>Palaa <a href="/">takaisin</a>.</p>
-<form action="/login" method="POST">
-    <fieldset id="login">
-        <div>
-            <label for="username">Käyttäjätunnus:
-                <input type="text" name="username" id="username" />
-            </label>
-        </div>
-        <div>
-            <label for="password">Salasana:
-                <input type="password" name="password" id="password" />
-            </label>
-        </div>
-    </fieldset>
-    <input type="submit" value="Kirjaudu" />
-</form>
-<p>Jos sinulla ei ole tunnusta, voit luoda ne <a href="/register">tästä</a>.</p>
-</body>
-</html>
-
+<div class="row">
+    <div class="col">
+        <h2>Kirjaudu sisään</h2>
+        <form action="/login" method="POST">
+            <fieldset>
+                <div class="form-group">
+                    <label for="username">Käyttäjätunnus:
+                        <input type="text" class="form-control" name="username" id="username" />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="password">Salasana:
+                        <input type="password" class="form-control" name="password" id="password" />
+                    </label>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Kirjaudu</button>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <p>Jos sinulla ei ole tunnusta, voit luoda ne <a href="/register">tästä</a>.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <p>Palaa <a href="/">takaisin</a> etusivulle.</p>
+    </div>
+</div>
 {% endblock %}
