@@ -17,6 +17,5 @@ Sovelluksen ominaisuuksia ovat:
 
 Sovellus on testattavissa osoitteessa: https://tsoha-golfcourses.fly.dev/
 
-Tällä hetkellä puuttuvat ominaisuudet (22.9.2023):
-* Käyttäjä voi etsiä golfkenttiä esim. sijainnin tai palveluiden perusteella.
+Tällä hetkellä puuttuvat ominaisuudet (9.10.2023):
 * Ylläpitäjä voi luoda ryhmiä, joihin golfkenttiä voi luokitella. Golfkenttä voi kuulua yhteen tai useampaan ryhmään.
