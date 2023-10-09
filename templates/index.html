@@ -1,36 +1,89 @@
 {% extends 'layout.html' %}
 {% block content %}
-
-<h2>Etusivu</h2>
-
-{% if session.user_id %}
-<div>Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>.<a href="/logout">Kirjaudu ulos</a></div>
-
-{% else %}
-<div>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a> tai <a href="/register">rekisteröidy</a>.</div>
-{% endif %}
-
-<div class="index-course-container">
-    {% if session.user_role == 1 %}
-    <div>
-        <h3>Kentät arvostelujen mukaan</h3>
-        <ul>
+<div class="row">
+    {% if session.user_id %}
+    <div class="col">Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>.</div>
+    {% else %}
+    <div class="col">Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a> tai <a href="/register">rekisteröidy</a>.</div>
+    {% endif %}
+</div>
+<div class="row">
+    <div class="col-3">
+        <h3>Parhaat kentät</h3>
+        <div class="list-group">
             {% for rating in ratings %}
-            <li><a href="/course/{{ rating.id }}">{{ rating.name }}</a> {{ rating.stars }}</li>
+            <a href="/course/{{ rating.id }}" class="list-group-item list-group-item-action">{{ rating.name }} {{ rating.stars }} tähteä</a>
             {% endfor %}
-        </ul>
+        </div>
+    </div>
+    <div class="col-9">
+        {% include 'map.html' %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <h3>Etsi kenttiä</h3>
+        <form id="searchform" action="/" method="POST">
+            <fieldset>
+                <legend>Nimi ja sijainti</legend>
+                <div class="form-group">
+                    <label for="name">Nimi: 
+                        <input type="text" class="form-control" id="name" name="name" />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="city">Kaupunki: 
+                        <input type="text" class="form-control" id="city" name="city" />
+                    </label>                    
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Harjoitusalueet ja palvelut</legend>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="range" name="services" value="range" />
+                    <label class="form-check-label" for="range">Range</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="green" name="services" value="green" />
+                    <label class="form-check-label" for="green">Harjoitusviheriö</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="short" name="services" value="short" />
+                    <label class="form-check-label" for="short">Lähipelialue</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="restaurant" name="services" value="restaurant" />
+                    <label class="form-check-label" for="restaurant">Ravintola</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="proshop" name="services" value="proshop" />
+                    <label class="form-check-label" for="proshop">Pro shop</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="sauna" name="services" value="sauna" />
+                    <label class="form-check-label" for="sauna">Sauna</label>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Etsi</button>
+        </form>
+    </div>
+    {% if results %}
+    <div class="col-6">
+        <h3>Hakutulokset</h3>
+        <div class="list-group">
+            {% for result in results %}
+            <a href="/course/{{ result.id }}" class="list-group-item list-group-item-action">{{ result.name }}</a>
+            {% endfor %}
+        </div>
     </div>
     {% endif %}
-    {% include 'map.html' %}
 </div>
-
 {% if session.user_role == 2 %}
-
-<h3>Ylläpitäjän toiminnot</h3>
-<p><a href="/add">Lisää uusi kenttä</a></p>
-
+<div class="row">
+    <div class="col">
+        <h3>Ylläpitäjän toiminnot</h3>
+        <p>Lisää <a href="/add">uusi</a> kenttä.</p>
+    </div>
+</div>
 {% endif %}
-</body>
-</html>
-
 {% endblock %}

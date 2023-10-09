@@ -3,6 +3,47 @@ from sqlalchemy.sql import text
 from geopy.geocoders import Nominatim
 from db import db
 
+def search_courses():
+    name = request.form['name'].strip().upper()
+    city = request.form['city'].strip().upper()
+    services = request.form.getlist('services')
+    practicerange = has_service('range', services)
+    practicegreen = has_service('green', services)
+    shortgame_area = has_service('short', services)
+    restaurant = has_service('restaurant', services)
+    pro_shop = has_service('proshop', services)
+    sauna = has_service('sauna', services)
+
+    services = {
+        'tr.has_range': practicerange,
+        'tr.has_practice_green': practicegreen,
+        'tr.has_short_game_area': shortgame_area,
+        'ch.has_restaurant': restaurant,
+        'ch.has_pro_shop': pro_shop,
+        'ch.has_sauna': sauna
+    }
+    sql_help = ''
+    sql_params = {}
+    if len(name):
+        sql_params.update({'name': '%'+name+'%'})
+        sql_help += f'upper(c.name) LIKE :name'
+        if len(city):
+            sql_help += f' AND upper(a.city) LIKE :city'
+            sql_params.update({'city': '%'+city+'%'})
+    elif len(city):
+        sql_help += f'upper(a.city) LIKE :city'
+        sql_params.update({'city': '%'+city+'%'})
+    for key, value in services.items():        
+        if value:
+            sql_help += f' AND {key}=:{key[3:]}'
+            sql_params.update({key[3:]: value})
+    if not len(name) and not len(city):
+        index = sql_help.find(' AND ')
+        sql_help = sql_help[0:index] + sql_help[index + 5:]
+    sql = f'''SELECT c.id, c.name FROM courses c, address a, training_areas tr, clubhouse ch
+              WHERE c.id = a.course_id AND c.id = tr.course_id AND c.id = ch.course_id AND {sql_help}'''
+    return db.session.execute(text(sql), sql_params).fetchall()
+
 def get_coords():
     sql = 'SELECT c.id, c.name, a.coordinates FROM courses c, address a WHERE c.id = a.course_id'
     return db.session.execute(text(sql))

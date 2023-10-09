@@ -4,7 +4,7 @@ from app import app
 import courses
 import users
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     my_map = folium.Map(location=(60.192059, 24.945831), width=800, height=600, zoom_start=9)
     golfcourses = courses.get_coords()
@@ -17,7 +17,16 @@ def index():
             popup=f'<a href=/course/{course.id}>{course.name}</a>')
             marker.add_to(my_map)
     my_map.save('templates/map.html')
+    if request.method == 'POST':
+        results = courses.search_courses()
+        return render_template('index.html', ratings=ratings, results=results)
     return render_template('index.html', ratings=ratings)
+
+@app.route('/search', methods=['POST'])
+def search_courses():
+    ratings = courses.get_course_ratings()
+    courses.search_courses()
+    return render_template('index.html', ratings=ratings)#, results=results)
 
 @app.route('/course/<int:course_id>')
 def show_course(course_id):
