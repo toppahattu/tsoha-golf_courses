@@ -1,55 +1,66 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% if reviews %}
-<section id="reviews">
-    <div>
-        <h2>Arvostelut kentästä {{ reviews[0].c_name }}</h2>
-    </div>
-    <div class="review-container">
-        {% for review in reviews %}
-        <div class="review-box">
-            <div class="box-top">
-                <div class="profile">
-                    <div class="user-name">
-                        <strong>{{ review.u_name }}</strong>
-                        <span>@{{ review.username }}</span>
-                    </div>
-                </div>
-                <div class="review-stars">
-                    {% for i in range(review.stars) %}
-                    <span class="fa fa-star checked"></span>
-                    {% endfor %}
-                    {% for i in range(5 - review.stars) %}
-                    <span class="fa fa-star"></span>
-                    {% endfor %}
-                </div>
-                <div class="review-text">
-                    <p>{{ review.comment }}</p>
-                </div>
+<div class="row">
+    <div class="col">
+        <section id="reviews">
+            <div>
+                <h2>Arvostelut kentästä {{ name }}</h2>
             </div>
-            {% if session.user_role == 2 %}
-            <form action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa arvostelun?')" >
-                <input type="submit" value="Poista arvostelu" />
-                <input type="hidden" name="course" value="{{ course_id }}" />
-                <input type="hidden" name="user" value="{{ review.username }}" />
-                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-            </form>
-            {% endif %}
-        </div>
-        {% endfor %}
+            <div class="review-container">
+                {% for review in reviews %}
+                <div class="review-box">
+                    <div class="box-top">
+                        <div class="profile">
+                            <div class="user-name">
+                                <strong>{{ review.u_name }}</strong>
+                                <span>@{{ review.username }}</span>
+                            </div>
+                        </div>
+                        <div class="review-stars">
+                            {% for i in range(review.stars) %}
+                            <span class="fa fa-star checked"></span>
+                            {% endfor %}
+                            {% for i in range(5 - review.stars) %}
+                            <span class="fa fa-star"></span>
+                            {% endfor %}
+                        </div>
+                        <div class="review-text">
+                            <p>{{ review.comment }}</p>
+                        </div>
+                    </div>
+                    {% if session.user_role == 2 %}
+                    <form action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa arvostelun?')" >
+                        <input type="submit" value="Poista arvostelu" />
+                        <input type="hidden" name="course" value="{{ course_id }}" />
+                        <input type="hidden" name="user" value="{{ review.username }}" />
+                        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </section>
     </div>
-</section>
-<p>Palaa <a href="/course/{{ course_id }}">takaisin</a>.</p>
+</div>
+<div class="row">
+    <div class="col">
+        <p>Palaa takaisin kentän <a href="/course/{{ course_id }}">{{ name }}</a> sivulle.</p>
+    </div>
+</div>
 {% else %}
-<p> 
-    Ei vielä arvosteluita.
-    <a href="/course/{{ course_id }}">
+<div class="row">
+    <div class="col">
         {% if session.user_role == 1 %}
-        Jätä arvostelu
+        <p>
+            Ei vielä arvosteluita. Jätä <a href="/course/{{ course_id }}">arvostelu</a>.
+        </p>
         {% else %}
-        Palaa takaisin
-        {% endif %}
-    </a>.
-</p>
+        <p> 
+            Ei vielä arvosteluita. Palaa takaisin kentän <a href="/course/{{ course_id }}">{{ name }}</a> sivulle.
+        </p>
+        {% endif %} 
+    </div>
+</div>
 {% endif %}
 {% endblock %}

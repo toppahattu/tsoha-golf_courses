@@ -6,7 +6,7 @@ import users
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    my_map = folium.Map(location=(60.192059, 24.945831), width=800, height=600, zoom_start=9)
+    my_map = folium.Map(location=(60.192059, 24.945831), width='100%', height=600, zoom_start=9)
     golfcourses = courses.get_coords()
     ratings = courses.get_course_ratings()
     if golfcourses:
@@ -109,7 +109,9 @@ def review_course():
 @app.route('/reviews/<int:course_id>')
 def reviews(course_id):
     all_reviews = courses.get_all_reviews(course_id)
-    return render_template('reviews.html', course_id=course_id, reviews=all_reviews)
+    course_info = courses.get_course_info(course_id)
+    return render_template('reviews.html', course_id=course_id,
+                           reviews=all_reviews, name=course_info.name)
 
 @app.route('/logout')
 def logout():
