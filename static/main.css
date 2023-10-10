@@ -33,7 +33,7 @@ form {
 }
 
 .review-box{
-    width: 500px;
+    width: 600px;
     padding: 20px;
     margin: 15px;
 }
@@ -48,6 +48,7 @@ form {
 .profile{
     display: flex;
     align-items: center;
+    margin-right: 0.5em;
 }
 
 .user-name{
@@ -57,11 +58,17 @@ form {
 
 .user-name strong{
     font-size: 1.1em;
+    white-space: nowrap;
 }
 
 .user-name span{
     font-size: 0.8em;
     color: grey;
+}
+
+.review-stars {
+    margin-right: 0.5em;
+    white-space: nowrap;
 }
 
 .review-stars .checked{
