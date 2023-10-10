@@ -3,6 +3,10 @@ from sqlalchemy.sql import text
 from geopy.geocoders import Nominatim
 from db import db
 
+def get_all_courses():
+    sql = 'SELECT id, name FROM courses ORDER BY name'
+    return db.session.execute(text(sql)).fetchall()
+
 def search_courses():
     name = request.form['name'].strip().upper()
     city = request.form['city'].strip().upper()
@@ -282,5 +286,5 @@ def get_all_reviews(course_id):
 def get_course_ratings():
     sql = '''SELECT c.name, CAST(COALESCE(AVG(r.stars), 0) AS DECIMAL(3, 2)) AS stars, c.id
              FROM courses c LEFT JOIN reviews r ON c.id=r.course_id
-             GROUP BY c.id, c.name ORDER BY stars DESC'''
+             GROUP BY c.id, c.name ORDER BY stars DESC LIMIT 10'''
     return db.session.execute(text(sql)).fetchall()

@@ -22,11 +22,17 @@ def index():
         return render_template('index.html', ratings=ratings, results=results)
     return render_template('index.html', ratings=ratings)
 
-@app.route('/search', methods=['POST'])
-def search_courses():
-    ratings = courses.get_course_ratings()
-    courses.search_courses()
-    return render_template('index.html', ratings=ratings)#, results=results)
+@app.route('/add', methods=['GET', 'POST'])
+def add_course():
+    users.require_role(2)
+    if request.method == 'GET':
+        return render_template('add.html')
+    if request.method == 'POST':
+        users.check_csrf()
+        course_id = courses.add_course()
+        if not course_id:
+            return render_template('error.html', message='Kentän lisääminen ei onnistunut')
+    return redirect(f'/course/{course_id}')
 
 @app.route('/course/<int:course_id>')
 def show_course(course_id):
@@ -38,6 +44,11 @@ def show_course(course_id):
     return render_template('course.html', course_id=course_id, info=course_info,
                            layouts=course_layouts, training=course_training,
                            clubhouse=course_clubhouse, review=review)
+
+@app.route('/courses')
+def show_courses():
+    all_courses = courses.get_all_courses()
+    return render_template('courses.html', courses = all_courses)
 
 @app.route('/edit/<int:course_id>', methods=['GET', 'POST'])
 def edit_course(course_id):
@@ -56,17 +67,46 @@ def edit_course(course_id):
             return render_template('error.html', message='Kentän muokkaaminen ei onnistunut')
     return redirect(f'/course/{course_id}')
 
-@app.route('/add', methods=['GET', 'POST'])
-def add_course():
-    users.require_role(2)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     if request.method == 'GET':
-        return render_template('add.html')
+        return render_template('login.html')
     if request.method == 'POST':
-        users.check_csrf()
-        course_id = courses.add_course()
-        if not course_id:
-            return render_template('error.html', message='Kentän lisääminen ei onnistunut')
-    return redirect(f'/course/{course_id}')
+        username = request.form['username']
+        password = request.form['password']
+        if not users.login(username, password):
+            return render_template('error.html', message='Väärä käyttäjänimi tai salasana')
+    return redirect('/')
+
+@app.route('/logout')
+def logout():
+    users.logout()
+    return redirect('/')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('/register.html')
+    if request.method == 'POST':
+        name = request.form['name']
+        if len(name) > 50:
+            return render_template('error.html',
+                                   message='Nimessä tulee olla alle 50 merkkiä')
+        username = request.form['username']
+        if len(username) < 3 or len(username) > 20:
+            return render_template('error.html', message='Käyttäjänimessä tulee olla 3-20 merkkiä')
+        password1 = request.form['password1']
+        password2 = request.form['password2']
+        if password1 != password2:
+            return render_template('error.html', message='Salasanat eroavat toisistaan')
+        if len(password1.strip()) == 0:
+            return render_template('error.html', message='Salasana ei voi olla tyhjä')
+        role = request.form['role']
+        if role not in ('1', '2'):
+            return render_template('error.html', message='Tuntematon käyttäjärooli')
+        if not users.register(name, username, password1, role):
+            return render_template('error.html', message='Rekisteröinti ei onnistunut')
+    return redirect('/')
 
 @app.route('/remove', methods=['POST'])
 def remove():
@@ -113,44 +153,5 @@ def reviews(course_id):
     return render_template('reviews.html', course_id=course_id,
                            reviews=all_reviews, name=course_info.name)
 
-@app.route('/logout')
-def logout():
-    users.logout()
-    return redirect('/')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'GET':
-        return render_template('login.html')
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        if not users.login(username, password):
-            return render_template('error.html', message='Väärä käyttäjänimi tai salasana')
-    return redirect('/')
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'GET':
-        return render_template('/register.html')
-    if request.method == 'POST':
-        name = request.form['name']
-        if len(name) > 50:
-            return render_template('error.html',
-                                   message='Nimessä tulee olla alle 50 merkkiä')
-        username = request.form['username']
-        if len(username) < 3 or len(username) > 20:
-            return render_template('error.html', message='Käyttäjänimessä tulee olla 3-20 merkkiä')
-        password1 = request.form['password1']
-        password2 = request.form['password2']
-        if password1 != password2:
-            return render_template('error.html', message='Salasanat eroavat toisistaan')
-        if len(password1.strip()) == 0:
-            return render_template('error.html', message='Salasana ei voi olla tyhjä')
-        role = request.form['role']
-        if role not in ('1', '2'):
-            return render_template('error.html', message='Tuntematon käyttäjärooli')
-        if not users.register(name, username, password1, role):
-            return render_template('error.html', message='Rekisteröinti ei onnistunut')
-    return redirect('/')
     
