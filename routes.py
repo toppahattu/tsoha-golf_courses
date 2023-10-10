@@ -35,8 +35,9 @@ def show_course(course_id):
     course_training = courses.get_training_areas(course_id)
     course_clubhouse = courses.get_clubhouse_info(course_id)
     review = courses.get_review(course_id, users.user_id())
-    return render_template('course.html', course_id=course_id, info=course_info, layouts=course_layouts,
-                           training=course_training, clubhouse=course_clubhouse, review=review)
+    return render_template('course.html', course_id=course_id, info=course_info,
+                           layouts=course_layouts, training=course_training,
+                           clubhouse=course_clubhouse, review=review)
 
 @app.route('/edit/<int:course_id>', methods=['GET', 'POST'])
 def edit_course(course_id):
@@ -46,8 +47,9 @@ def edit_course(course_id):
         course_layouts = courses.get_course_layouts(course_id)
         course_training = courses.get_training_areas(course_id)
         course_clubhouse = courses.get_clubhouse_info(course_id)
-        return render_template('edit.html', course_id=course_id, info=course_info, layouts=course_layouts,
-                               training=course_training, clubhouse=course_clubhouse)
+        return render_template('edit.html', course_id=course_id, info=course_info,
+                               layouts=course_layouts, training=course_training,
+                               clubhouse=course_clubhouse)
     if request.method == 'POST':
         users.check_csrf()
         if not courses.edit_course(course_id):
@@ -133,7 +135,7 @@ def register():
         name = request.form['name']
         if len(name) > 50:
             return render_template('error.html',
-                                   message='Käyttäjänimessä tulee olla alle 50 merkkiä')
+                                   message='Nimessä tulee olla alle 50 merkkiä')
         username = request.form['username']
         if len(username) < 3 or len(username) > 20:
             return render_template('error.html', message='Käyttäjänimessä tulee olla 3-20 merkkiä')

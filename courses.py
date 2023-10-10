@@ -24,24 +24,26 @@ def search_courses():
     }
     sql_help = ''
     sql_params = {}
-    if len(name):
+    if name:
         sql_params.update({'name': '%'+name+'%'})
-        sql_help += f'upper(c.name) LIKE :name'
-        if len(city):
-            sql_help += f' AND upper(a.city) LIKE :city'
+        sql_help += 'upper(c.name) LIKE :name'
+        if city:
+            sql_help += ' AND upper(a.city) LIKE :city'
             sql_params.update({'city': '%'+city+'%'})
-    elif len(city):
-        sql_help += f'upper(a.city) LIKE :city'
+    elif city:
+        sql_help += 'upper(a.city) LIKE :city'
         sql_params.update({'city': '%'+city+'%'})
-    for key, value in services.items():        
+    for key, value in services.items():
         if value:
             sql_help += f' AND {key}=:{key[3:]}'
             sql_params.update({key[3:]: value})
-    if not len(name) and not len(city):
+    if not name and not city:
         index = sql_help.find(' AND ')
         sql_help = sql_help[0:index] + sql_help[index + 5:]
+
     sql = f'''SELECT c.id, c.name FROM courses c, address a, training_areas tr, clubhouse ch
-              WHERE c.id = a.course_id AND c.id = tr.course_id AND c.id = ch.course_id AND {sql_help}'''
+              WHERE c.id = a.course_id AND c.id = tr.course_id AND c.id = ch.course_id
+              AND {sql_help}'''
     return db.session.execute(text(sql), sql_params).fetchall()
 
 def get_coords():
@@ -49,7 +51,8 @@ def get_coords():
     return db.session.execute(text(sql))
 
 def get_course_info(course_id):
-    sql = '''SELECT c.id, c.name, c.description, c.www, a.street, a.postal_code, a.city, h.caddiemaster
+    sql = '''SELECT c.id, c.name, c.description, c.www,
+             a.street, a.postal_code, a.city, h.caddiemaster
              FROM courses c, address a, clubhouse h
              WHERE c.id=:course_id AND c.id=h.course_id AND c.id=a.course_id'''
     return db.session.execute(text(sql), {'course_id': course_id}).fetchone()
@@ -91,9 +94,11 @@ def add_course():
     name = request.form['name']
     description = request.form['description'].strip()
     www = request.form['www']
-    sql = 'INSERT INTO courses (name, description, www) VALUES (:name, :description, :www) RETURNING id'
+    sql = '''INSERT INTO courses (name, description, www)
+             VALUES (:name, :description, :www) RETURNING id'''
     course_id = db.session.execute(text(sql),
-                                   {'name': name,'description': description, 'www': www}).fetchone()[0]
+                                   {'name': name,'description': description,
+                                    'www': www}).fetchone()[0]
 
     if course_id:
         success = False
@@ -103,7 +108,7 @@ def add_course():
         success = add_address(course_id, sql)
         if not success:
             return None
-        
+
         sql = '''INSERT INTO course (course_id, name, par, holes)
                  VALUES (:course_id, :name, :par, :holes)'''
         success = add_layouts(course_id, sql)
@@ -123,7 +128,7 @@ def add_course():
         success = add_clubhouse(course_id, sql)
         if not success:
             return None
-            
+
     db.session.commit()
     return course_id
 
@@ -135,7 +140,8 @@ def edit_course(course_id):
     sql = 'UPDATE courses SET name=:name, description=:description, www=:www WHERE id=:course_id'
     try:
         db.session.execute(text(sql),
-                       {'name': name, 'description': description, 'www': www, 'course_id': course_id})
+                       {'name': name, 'description': description,
+                        'www': www, 'course_id': course_id})
     except:
         return False
 
@@ -145,7 +151,7 @@ def edit_course(course_id):
     success = add_address(course_id, sql)
     if not success:
         return False
-    
+
     sql = '''INSERT INTO course (course_id, name, par, holes)
                  VALUES (:course_id, :name, :par, :holes)'''
     success = add_layouts(course_id, sql)
@@ -275,5 +281,6 @@ def get_all_reviews(course_id):
 
 def get_course_ratings():
     sql = '''SELECT c.name, CAST(COALESCE(AVG(r.stars), 0) AS DECIMAL(3, 2)) AS stars, c.id
-             FROM courses c LEFT JOIN reviews r ON c.id=r.course_id GROUP BY c.id, c.name ORDER BY stars DESC'''
+             FROM courses c LEFT JOIN reviews r ON c.id=r.course_id
+             GROUP BY c.id, c.name ORDER BY stars DESC'''
     return db.session.execute(text(sql)).fetchall()

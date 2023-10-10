@@ -7,37 +7,31 @@
         <form id="courseform" action="/edit/{{ course_id }}" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
             <fieldset id="courseinfo">
                 <legend>Perustiedot</legend>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="name">Kentän nimi:
-                            <input type="text" class="form-control" name="name" id="name" value="{{ info.name }}" required/>
-                        </label>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="www">www-osoite:
-                            <input type="text" class="form-control" name="www" id="www" value="{{ info.www }}" required/>
-                        </label>
-                    </div>
+                <div class="form-group">
+                    <label for="name">Kentän nimi:
+                        <input type="text" class="form-control" name="name" id="name" value="{{ info.name }}" required/>
+                    </label>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label for="street">Katuosoite:
-                            <input type="text" class="form-control" name="street" id="street" value="{{ info.street }}" required/>
-                        </label>
-                    </div>
+                <div class="form-group">
+                    <label for="www">www-osoite:
+                        <input type="text" class="form-control" name="www" id="www" value="{{ info.www }}" required/>
+                    </label>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="postal">Postinumero:
-                            <input type="text" class="form-control" name="postal" id="postal" value="{{ info.postal_code }}" required/>
-                        </label>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="city">Kaupunki:
-                            <input type="text" class="form-control" name="city" id="city" value="{{ info.city }}" required/>
-                        </label>
-                    </div>
-                </div>                
+                <div class="form-group">
+                    <label for="street">Katuosoite:
+                        <input type="text" class="form-control" name="street" id="street" value="{{ info.street }}" required/>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="postal">Postinumero:
+                        <input type="text" class="form-control" name="postal" id="postal" value="{{ info.postal_code }}" required/>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="city">Kaupunki:
+                        <input type="text" class="form-control" name="city" id="city" value="{{ info.city }}" required/>
+                    </label>
+                </div>
                 <div class="form-group">
                     <label for="description">Kentän kuvaus:</label>
                     <textarea class="form-control" id="description" name="description" rows="10" cols="50" maxlength="1000" >
