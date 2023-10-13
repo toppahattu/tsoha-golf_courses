@@ -80,4 +80,5 @@ CREATE TABLE course_group (
     FOREIGN KEY (course_id) REFERENCES courses (id)
         ON DELETE CASCADE,
     FOREIGN KEY (group_id) REFERENCES groups (id)
+        ON DELETE CASCADE
 );
