@@ -48,7 +48,7 @@ def search_courses():
 
     sql = f'''SELECT c.id, c.name FROM courses c, address a, training_areas tr, clubhouse ch
               WHERE c.id = a.course_id AND c.id = tr.course_id AND c.id = ch.course_id
-              AND {sql_help}'''
+              AND {sql_help} ORDER BY c.name'''
     return db.session.execute(text(sql), sql_params).fetchall()
 
 def get_coords():
