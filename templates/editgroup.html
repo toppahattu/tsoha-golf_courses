@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h2>Muokkaa ryhmän tietoja</h2>
+        <form id="groupform" action="/editgroup/{{ group_id }}" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
+            <fieldset>
+                <legend>Perustiedot</legend>
+                <div class="form-group">
+                    <label for="name">Nimi:
+                        <input type="text" class="form-control" name="name" id="name" value="{{ group.name }}" required/>
+                    </label>
+                </div>                           
+                <div class="form-group">
+                    <label for="description">Kuvaus:</label>
+                    <textarea class="form-control" id="description" name="description" rows="10" cols="50" maxlength="1000">
+                        {{ group.description }}
+                    </textarea>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Lisää tai poista kenttiä</legend>
+                {% for course in all_courses %}
+                {% if course in groups_courses %}
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="{{ course.id }}" name="courses" value="{{ course.id }}" checked/>
+                    <label class="form-check-label" for="{{ course.id }}"><a href="/course/{{ course.id }}">{{ course.name }}</a></label>
+                </div>
+                {% else %}
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="{{ course.id }}" name="courses" value="{{ course.id }}" />
+                    <label class="form-check-label" for="{{ course.id }}"><a href="/course/{{ course.id }}">{{ course.name }}</a></label>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Muokkaa ryhmää</button>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <br>
+        <p>Palaa takaisin ryhmän <a href="/group/{{ group_id }}">{{ group.name }}</a> sivulle.</p>
+        <p>Palaa <a href="/">etusivulle</a>.</p>
+    </div>
+</div>
+{% endblock %}

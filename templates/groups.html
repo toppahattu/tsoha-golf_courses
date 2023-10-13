@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% if groups %}
+<div class="row">
+    <div class="col">
+        <h2>Kaikki ryhmät</h2>
+        <div class="list-group">
+            {% for group in groups %}
+            <a href="/group/{{ group.id }}" class="list-group-item list-group-item-action">{{ group.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col">
+        <p>Yhtään ryhmää ei ole luotu. Palaa <a href="/">etusivulle</a>.</p>
+    </div>
+    {% if session.user_role == 2 %}
+    <br>
+    <p>Luo uusi <a href="/addgroup">ryhmä</a>.</p>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

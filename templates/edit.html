@@ -3,7 +3,7 @@
 <script src="/static/addLayout.js"></script>
 <div class="row">
     <div class="col">
-        <h2>Muokkaa golfkentän tietoja</h2>
+        <h2>Muokkaa golfkentän {{ info.name }} tietoja</h2>
         <form id="courseform" action="/edit/{{ course_id }}" method="POST" onsubmit="return window.confirm('Ovatko tiedot oikein?')">
             <fieldset id="courseinfo">
                 <legend>Perustiedot</legend>
@@ -107,7 +107,7 @@
                 <legend>Lisää klubitalon palvelut</legend>
                 <div class="form-group">
                     <label for="caddie">Caddiemaster (puhelinnumero muodossa +358):
-                        <input type="text" class="form-control" name="caddie" id="caddie" value="{{ info.caddiemaster }}" required/>
+                        <input type="text" class="form-control" name="caddie" id="caddie" value="{{ info.caddiemaster }}" required />
                     </label>
                 </div>
                 <div class="form-check">

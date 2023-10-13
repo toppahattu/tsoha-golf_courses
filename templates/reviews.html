@@ -31,7 +31,7 @@
                     </div>
                     {% if session.user_role == 2 %}
                     <form action="/remove" method="POST" onsubmit="return window.confirm('Haluatko poistaa arvostelun?')" >
-                        <input type="submit" value="Poista arvostelu" />
+                        <button type="submit" class="btn btn-primary">Poista arvostelu</button>
                         <input type="hidden" name="course" value="{{ course_id }}" />
                         <input type="hidden" name="user" value="{{ review.username }}" />
                         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

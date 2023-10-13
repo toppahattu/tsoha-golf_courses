@@ -1,13 +1,6 @@
 {% extends 'layout.html' %}
 {% block content %}
 <div class="row">
-    {% if session.user_id %}
-    <div class="col">Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>.</div>
-    {% else %}
-    <div class="col">Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a> tai <a href="/register">rekisteröidy</a>.</div>
-    {% endif %}
-</div>
-<div class="row">
     <div class="col">
         <h1>Golfkentät</h1>
         <hr>
@@ -84,13 +77,4 @@
     </div>
     {% endif %}
 </div>
-{% if session.user_role == 2 %}
-<div class="row">
-    <div class="col">
-        <h3>Ylläpitäjän toiminnot</h3>
-        <br>
-        <p>Lisää <a href="/add">uusi</a> kenttä.</p>
-    </div>
-</div>
-{% endif %}
 {% endblock %}
