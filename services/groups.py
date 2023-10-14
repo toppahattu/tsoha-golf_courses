@@ -39,7 +39,7 @@ def get_all_groups():
 
 def get_courses(group_id):
     sql = '''SELECT c.id, c.name FROM courses c, course_group cg
-             WHERE cg.group_id=:group_id AND c.id=cg.course_id'''
+             WHERE cg.group_id=:group_id AND c.id=cg.course_id ORDER BY c.name'''
     return db.session.execute(text(sql),
                               {'group_id': group_id}).fetchall()
 
