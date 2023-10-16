@@ -57,7 +57,6 @@
 <div class="row">
     <h3>Kentän arvostelu</h3>
     {% if session.user_role == 1 %}
-    <div class="alert-container"></div>
     <div class="col">
         <form action="/review" method="POST" onsubmit="return window.confirm('Haluatko jättää tämän arvostelun?')">
             <fieldset>
