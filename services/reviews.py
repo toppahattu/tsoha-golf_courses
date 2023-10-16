@@ -31,3 +31,11 @@ def remove_review(user_id, course_id):
     sql = 'DELETE FROM reviews WHERE user_id=:user_id AND course_id=:course_id'
     db.session.execute(text(sql), {'user_id': user_id, 'course_id': course_id})
     db.session.commit()
+
+
+def validate_review(stars, comment):
+    if stars < 1 or stars > 5:
+            return 'Virheellinen tähtimäärä'
+    if len(comment) > 1000:
+            return 'Kommentti on liian pitkä'
+    return ''

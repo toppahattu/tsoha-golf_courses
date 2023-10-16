@@ -11,13 +11,12 @@ def review_course():
     if 'course' in request.form:
         course_id = request.form['course']
         stars = int(request.form['rating'])
-        if stars < 1 or stars > 5:
-            return render_template('error.html', message='Virheellinen tähtimäärä')
-        comment = request.form['comment'].strip()
-        if len(comment) > 1000:
-            return render_template('error.html', message='Kommentti on liian pitkä')
-        if comment.strip() == '':
+        comment = request.form['comment'].strip()        
+        if comment == '':
             comment = '-'
+        message = reviews.validate_review(stars, comment)
+        if message:
+            return render_template('error.html', message=message)
         if 'update' in request.form:
             reviews.edit_review(users.user_id(), course_id, stars, comment)
         else:

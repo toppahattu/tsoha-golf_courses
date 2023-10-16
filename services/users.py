@@ -51,8 +51,8 @@ def check_csrf():
         abort(403)
 
 def validate_user(user_info):
-    if len(user_info['name']) > 50:
-        return 'Nimessä tulee olla alle 50 merkkiä'
+    if len(user_info['name']) < 3 or len(user_info['name']) > 50:
+        return 'Nimessä tulee olla 3-50 merkkiä'
     if len(user_info['username']) < 3 or len(user_info['username']) > 20:
         return 'Käyttäjänimessä tulee olla 3-20 merkkiä'
     if user_info['password1'] != user_info['password2']:
