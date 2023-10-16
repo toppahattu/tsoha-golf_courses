@@ -1,5 +1,10 @@
 {% extends 'layout.html' %}
 {% block content %}
+{% if status == "reviewed" %}
+<div class="alert alert-success" role="alert">
+    Arvostelu jätetty! Katso <a href="/reviews/{{ course_id }}" class="alert-link">kaikki arvostelut</a> kentästä {{ info.name }}.
+</div>
+{% endif %}
 <div class="row">
     <h2>Kentän {{ info.name }} tiedot</h2>
     <div class="col">
@@ -52,6 +57,7 @@
 <div class="row">
     <h3>Kentän arvostelu</h3>
     {% if session.user_role == 1 %}
+    <div class="alert-container"></div>
     <div class="col">
         <form action="/review" method="POST" onsubmit="return window.confirm('Haluatko jättää tämän arvostelun?')">
             <fieldset>

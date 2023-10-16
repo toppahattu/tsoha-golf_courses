@@ -22,7 +22,7 @@ def review_course():
             reviews.edit_review(users.user_id(), course_id, stars, comment)
         else:
             reviews.add_review(users.user_id(), course_id, stars, comment)
-    return redirect(f'/course/{course_id}')
+    return redirect(f'/course/{course_id}?status=reviewed')
 
 @app.route('/reviews/<int:course_id>')
 def show_reviews(course_id):

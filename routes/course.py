@@ -25,7 +25,7 @@ def show_course(course_id):
     review = reviews.get_review(course_id, users.user_id())
     return render_template('course.html', course_id=course_id, info=course_info,
                            layouts=course_layouts, training=course_training,
-                           clubhouse=course_clubhouse, review=review)
+                           clubhouse=course_clubhouse, review=review, status = request.args.get('status'))
 
 @app.route('/courses')
 def show_courses():
