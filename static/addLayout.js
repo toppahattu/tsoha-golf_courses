@@ -37,6 +37,7 @@ function addNewLayout() {
         let nameInput = document.createElement('input')
         nameInput.setAttribute('type', 'text')
         nameInput.className = 'form-control'
+        nameInput.required = true
         nameInput.setAttribute('name', 'layoutname')
         nameInput.addEventListener('input', addNewLayout)
 
@@ -45,6 +46,7 @@ function addNewLayout() {
         let parInput = document.createElement('input')
         parInput.setAttribute('type', 'text')
         parInput.className = 'form-control'
+        parInput.required = true
         parInput.setAttribute('name', 'layoutpar')
 
         let holesLabel = document.createElement('label')
@@ -52,6 +54,7 @@ function addNewLayout() {
         let holesInput = document.createElement('input')
         holesInput.setAttribute('type', 'text')
         holesInput.className = 'form-control'
+        holesInput.required = true
         holesInput.setAttribute('name', 'layoutholes')
 
         container.appendChild(divName).appendChild(nameLabel).appendChild(nameInput)
