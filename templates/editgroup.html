@@ -13,9 +13,7 @@
                 </div>                           
                 <div class="form-group">
                     <label for="description">Kuvaus:</label>
-                    <textarea class="form-control" id="description" name="description" rows="10" cols="50" maxlength="1000">
-                        {{ group.description }}
-                    </textarea>
+                    <textarea class="form-control" id="description" name="description" rows="10" cols="50" maxlength="1000">{{ group.description }}</textarea>
                 </div>
             </fieldset>
             <fieldset>
@@ -43,7 +41,6 @@
     <div class="col">
         <br>
         <p>Palaa takaisin ryhmän <a href="/group/{{ group_id }}">{{ group.name }}</a> sivulle.</p>
-        <p>Palaa <a href="/">etusivulle</a>.</p>
     </div>
 </div>
 {% endblock %}

@@ -76,5 +76,11 @@
         </div>
     </div>
     {% endif %}
+    {% if no_results %}
+    <div class="col-6">
+        <h3>Hakutulokset</h3>
+        <p>Ei hakutuloksia</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

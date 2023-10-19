@@ -6,6 +6,10 @@ form {
     background-color: lightblue;
 }
 
+#navbarToggler span{
+    float: right;
+}
+
 .layoutcontainer {
     padding: 0.5em;
     border: 1px solid gray;

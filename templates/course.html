@@ -6,7 +6,7 @@
 </div>
 {% endif %}
 <div class="row">
-    <h2>Kentän {{ info.name }} tiedot</h2>
+    <h2>Kentän {{ info.name }} tiedot ({% if avg_stars > 0 %} {{ avg_stars }} tähteä {% else %} Ei vielä arvosteluja {% endif %})</h2>
     <div class="col">
         <p>{{ info.street }}, {{ info.postal_code }} {{ info.city }}</p>
     </div>
@@ -69,7 +69,7 @@
                     </div>                    
                     {% else %}
                     <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" id="star{{ i }}" name="rating" value="{{ i }}" />
+                        <input type="radio" class="form-check-input" id="star{{ i }}" name="rating" value="{{ i }}" required/>
                         <label class="form-check-label" for="star{{ i }}">{{ i }}</label>
                     </div>                    
                     {% endif %}
@@ -79,12 +79,12 @@
             <fieldset>
                 <legend>Anna kommentti kentästä {{ info.name }}:</legend>
                 <div class="form-group">
-                    <textarea class="form-control" id="comment" name="comment" rows="10" cols="50" maxlength="1000">
-                        {% if review %}
-                        {{ review.comment }}
-                        {% endif %}
-                    </textarea>
-                </div>                    
+                    {% if review %}
+                    <textarea class="form-control" id="comment" name="comment" rows="10" cols="50" maxlength="1000">{{ review.comment }}</textarea>
+                    {% else %}
+                    <textarea class="form-control" id="comment" name="comment" placeholder="Anna kommentti.." rows="10" cols="50" maxlength="1000"></textarea>
+                    {% endif %}
+                </div>
             </fieldset>
             <button type="submit" class="btn btn-primary">Jätä arvostelu</button>
             <input type="hidden" name="course" value="{{ course_id }}" />
