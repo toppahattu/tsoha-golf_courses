@@ -55,6 +55,8 @@ def validate_user(user_info):
         return 'Nimessä tulee olla 3-50 merkkiä'
     if len(user_info['username']) < 3 or len(user_info['username']) > 20:
         return 'Käyttäjänimessä tulee olla 3-20 merkkiä'
+    if user_info['password1'] > 50:
+        return 'Salasanan pitää olla alle 50 merkkiä'
     if user_info['password1'] != user_info['password2']:
         return 'Salasanat eroavat toisistaan'
     if not user_info['password1'].strip():

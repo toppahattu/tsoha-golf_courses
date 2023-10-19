@@ -45,10 +45,13 @@ def search_courses():
     if not name and not city:
         index = sql_help.find(' AND ')
         sql_help = sql_help[0:index] + sql_help[index + 5:]
+    if not sql_help:
+        sql_help = 'ORDER BY c.name'
+    else:
+        sql_help = 'AND ' + sql_help
 
     sql = f'''SELECT c.id, c.name FROM courses c, address a, training_areas tr, clubhouse ch
-              WHERE c.id = a.course_id AND c.id = tr.course_id AND c.id = ch.course_id
-              AND {sql_help} ORDER BY c.name'''
+              WHERE c.id = a.course_id AND c.id = tr.course_id AND c.id = ch.course_id {sql_help}'''
     return db.session.execute(text(sql), sql_params).fetchall()
 
 def get_coords():
@@ -254,7 +257,13 @@ def remove_layout(layout_id):
     db.session.execute(text(sql), {'layout_id': layout_id})
     db.session.commit()
 
-def get_course_ratings():
+def get_course_ratings_avg(course_id):
+    sql = '''SELECT CAST(COALESCE(AVG(r.stars), 0) AS DECIMAL(3, 2)) AS stars
+             FROM courses c LEFT JOIN reviews r ON c.id = r.course_id
+             AND c.id=:course_id'''
+    return db.session.execute(text(sql), {'course_id': course_id}).fetchone()[0]
+
+def get_all_course_ratings():
     sql = '''SELECT c.name, CAST(COALESCE(AVG(r.stars), 0) AS DECIMAL(3, 2)) AS stars, c.id
              FROM courses c LEFT JOIN reviews r ON c.id=r.course_id
              GROUP BY c.id, c.name ORDER BY stars DESC LIMIT 10'''

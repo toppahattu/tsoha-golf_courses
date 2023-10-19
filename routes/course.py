@@ -22,10 +22,11 @@ def show_course(course_id):
     course_layouts = courses.get_course_layouts(course_id)
     course_training = courses.get_training_areas(course_id)
     course_clubhouse = courses.get_clubhouse_info(course_id)
+    avg_stars = courses.get_course_ratings_avg(course_id)
     review = reviews.get_review(course_id, users.user_id())
     return render_template('course.html', course_id=course_id, info=course_info,
                            layouts=course_layouts, training=course_training,
-                           clubhouse=course_clubhouse, review=review, status = request.args.get('status'))
+                           clubhouse=course_clubhouse, avg_stars=avg_stars, review=review, status = request.args.get('status'))
 
 @app.route('/courses')
 def show_courses():
