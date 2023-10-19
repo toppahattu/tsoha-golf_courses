@@ -17,6 +17,7 @@ def index():
             marker.add_to(my_map)
     my_map.save('templates/map.html')
     if request.method == 'POST':
+        no_results = False
         results = courses.search_courses()
         if not results:
             no_results = True
